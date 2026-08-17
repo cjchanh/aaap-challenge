@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# ruff: noqa: E402
 """Standalone verifier for Attested After-Action Packets (AAAP v0.4).
 
 Exit 0 = packet verified. Exit 1 = verification failed (fail-closed).
@@ -33,14 +34,27 @@ Construction mirrors deponent operator_attest.py v1; no novel cryptography.
 """
 from __future__ import annotations
 
+import sys
+
+# Direct script execution prepends this hostile packet directory to sys.path.
+# Remove it before any non-built-in import so unsealed packet modules cannot
+# shadow the standard library or cryptography ahead of root inventory.
+_packet_import_root = sys.path[0] if sys.path else None
+if __name__ == "__main__":
+    sys.path[:] = [
+        entry for entry in sys.path
+        if entry and entry != _packet_import_root
+    ]
+del _packet_import_root
+
 import argparse
 import hashlib
 import json
+import math
 import os
 import shutil
 import stat
 import subprocess
-import sys
 import tempfile
 from datetime import date
 from pathlib import Path, PurePosixPath
@@ -82,12 +96,20 @@ def _reject_duplicate_keys(pairs):
     return value
 
 
+def _parse_finite_float(token: str) -> float:
+    value = float(token)
+    if not math.isfinite(value):
+        raise ValueError(f"non-finite JSON number: {token}")
+    return value
+
+
 def strict_json_loads(text: str, source: str = "JSON"):
     """Parse interoperable JSON: no duplicate keys or non-finite numbers."""
     try:
         return json.loads(
             text,
             object_pairs_hook=_reject_duplicate_keys,
+            parse_float=_parse_finite_float,
             parse_constant=lambda token: (_ for _ in ()).throw(
                 ValueError(f"non-finite JSON number: {token}")
             ),

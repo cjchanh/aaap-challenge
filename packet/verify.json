@@ -10,12 +10,17 @@
     {
       "check": "packet-structure",
       "passed": true,
-      "detail": "chain.jsonl, attestation.json, artifacts/ present"
+      "detail": "plain chain.jsonl, attestation.json, artifacts/ present"
     },
     {
       "check": "manifest-present",
       "passed": true,
       "detail": "manifest.json seals the derived layer"
+    },
+    {
+      "check": "packet-root-inventory",
+      "passed": true,
+      "detail": "root contains only the exact sealed packet set plus optional verify.json"
     },
     {
       "check": "chain-nonempty",
@@ -360,7 +365,7 @@
     {
       "check": "artifacts-complete",
       "passed": true,
-      "detail": "artifacts/ holds exactly the referenced set (21 referenced, 21 present)"
+      "detail": "artifacts/ holds exactly the referenced set (21 referenced, 21 present; 1 directories)"
     },
     {
       "check": "attestation-head-binding",
@@ -385,7 +390,7 @@
     {
       "check": "manifest-files-complete",
       "passed": true,
-      "detail": "manifest covers ['PACKET.md', 'ENVELOPE.md', 'report.md', 'replay.json', 'verify_packet.py']"
+      "detail": "manifest covers exactly ['PACKET.md', 'ENVELOPE.md', 'report.md', 'replay.json', 'verify_packet.py']"
     },
     {
       "check": "manifest-PACKET.md",
@@ -415,12 +420,12 @@
     {
       "check": "manifest-signature",
       "passed": true,
-      "detail": "Ed25519 ok over derived-file digest map (cryptography, openssl)"
+      "detail": "Ed25519 ok over every manifest control field (cryptography, openssl)"
     },
     {
       "check": "identity-single-key",
       "passed": true,
-      "detail": "packet seal and manifest share one identity key"
+      "detail": "packet seal and manifest share one identity and operator id"
     },
     {
       "check": "live-files-present",
@@ -445,7 +450,12 @@
     {
       "check": "live-capture-signatures",
       "passed": true,
-      "detail": "all 6 capture-time signatures verify against the packet identity key"
+      "detail": "all 6 capture-time signatures verify against the packet identity key (cryptography, openssl)"
+    },
+    {
+      "check": "signature-engine-consistency",
+      "passed": true,
+      "detail": "common engines across every checked signature: cryptography, openssl"
     }
   ],
   "chain_head": "14d14281170d89f6f8b918daf6541f81e7e13549dd4c66f5b085304ff6a61724",

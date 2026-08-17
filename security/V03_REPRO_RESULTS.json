@@ -1,0 +1,70 @@
+[
+  {
+    "case": "manifest_live_removed",
+    "exit": 0,
+    "unexpected_pass": true,
+    "first_line": "PASS: chain intact, artifacts complete and intact, derived layer sealed by manifest, attestation valid [engines: cryptography, openssl]"
+  },
+  {
+    "case": "manifest_key_model_tampered",
+    "exit": 0,
+    "unexpected_pass": true,
+    "first_line": "PASS: chain intact, artifacts complete and intact, derived layer sealed by manifest, attestation valid [engines: cryptography, openssl]"
+  },
+  {
+    "case": "manifest_schema_tampered",
+    "exit": 0,
+    "unexpected_pass": true,
+    "first_line": "PASS: chain intact, artifacts complete and intact, derived layer sealed by manifest, attestation valid [engines: cryptography, openssl]"
+  },
+  {
+    "case": "manifest_invalid_nan",
+    "exit": 0,
+    "unexpected_pass": true,
+    "first_line": "PASS: chain intact, artifacts complete and intact, derived layer sealed by manifest, attestation valid [engines: cryptography, openssl]"
+  },
+  {
+    "case": "attestation_schema_tampered",
+    "exit": 0,
+    "unexpected_pass": true,
+    "first_line": "PASS: chain intact, artifacts complete and intact, derived layer sealed by manifest, attestation valid [engines: cryptography, openssl]"
+  },
+  {
+    "case": "attestation_unsigned_claim",
+    "exit": 0,
+    "unexpected_pass": true,
+    "first_line": "PASS: chain intact, artifacts complete and intact, derived layer sealed by manifest, attestation valid [engines: cryptography, openssl]"
+  },
+  {
+    "case": "chain_duplicate_key_confusion",
+    "exit": 0,
+    "unexpected_pass": true,
+    "first_line": "PASS: chain intact, artifacts complete and intact, derived layer sealed by manifest, attestation valid [engines: cryptography, openssl]"
+  },
+  {
+    "case": "verify_output_symlink",
+    "exit": 0,
+    "unexpected_pass": true,
+    "sealed_report_overwritten": true,
+    "report_before": "cfe13ff8c02c7cdd35cf64b85a44c4905ef406325dd05c62cd4ed301fa0dd64c",
+    "report_after": "dbb9b0341e1090e50de001cce1527c2132f6354e474110f514068090e911c495"
+  },
+  {
+    "case": "dangling_artifact_symlink",
+    "exit": 0,
+    "unexpected_pass": true,
+    "first_line": "PASS: chain intact, artifacts complete and intact, derived layer sealed by manifest, attestation valid [engines: cryptography, openssl]"
+  },
+  {
+    "case": "unsealed_root_claim",
+    "exit": 0,
+    "unexpected_pass": true,
+    "first_line": "PASS: chain intact, artifacts complete and intact, derived layer sealed by manifest, attestation valid [engines: cryptography, openssl]"
+  },
+  {
+    "case": "derived_file_symlink_escape",
+    "exit": 0,
+    "unexpected_pass": true,
+    "first_line": "PASS: chain intact, artifacts complete and intact, derived layer sealed by manifest, attestation valid [engines: cryptography, openssl]"
+  }
+]

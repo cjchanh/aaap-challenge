@@ -1,0 +1,233 @@
+{
+  "schema": "aaap-exercise/1",
+  "packet": "/private/tmp/aaap-daybreak-20260817.IiSNNN/v04-production-packet",
+  "anchor_head": "14d14281170d89f6f8b918daf6541f81e7e13549dd4c66f5b085304ff6a61724",
+  "anchor_pubkey": "e7fb4aad8b0e0246eb6569f49d301ad88a0b54333e3de8bb57e02e118fd3716c",
+  "results": [
+    {
+      "id": "A01",
+      "category": "modify-contents",
+      "expectation": "must-catch",
+      "describe": "flip one byte in a sealed artifact copy (run_receipt)",
+      "verifier_exit": 1,
+      "caught": true,
+      "detail": "FAIL: artifact artifacts/.builder-foundry__run_receipt.json hash mismatch (record modified)",
+      "verdict": "caught as designed"
+    },
+    {
+      "id": "A02",
+      "category": "modify-contents",
+      "expectation": "must-catch",
+      "describe": "append a line to the human report",
+      "verifier_exit": 1,
+      "caught": true,
+      "detail": "FAIL: derived file report.md modified after build (or missing) [engines: cryptography, openssl]",
+      "verdict": "caught as designed"
+    },
+    {
+      "id": "A03",
+      "category": "modify-contents",
+      "expectation": "must-catch",
+      "describe": "edit ENVELOPE.md spec text",
+      "verifier_exit": 1,
+      "caught": true,
+      "detail": "FAIL: derived file ENVELOPE.md modified after build (or missing) [engines: cryptography, openssl]",
+      "verdict": "caught as designed"
+    },
+    {
+      "id": "A04",
+      "category": "modify-contents",
+      "expectation": "must-catch",
+      "describe": "edit replay.json summary (fabricate a zero-drift claim over drifted evidence)",
+      "verifier_exit": 1,
+      "caught": true,
+      "detail": "FAIL: derived file replay.json modified after build (or missing) [engines: cryptography, openssl]",
+      "verdict": "caught as designed"
+    },
+    {
+      "id": "A05",
+      "category": "verifier",
+      "expectation": "boundary-obb",
+      "describe": "swap verify_packet.py for a backdoored always-PASS build \u2014 the swapped verifier lies about its own manifest failure BY DESIGN; detection is the out-of-band pristine verifier (its hash is sealed in the manifest)",
+      "verifier_exit": 0,
+      "caught": false,
+      "detail": "FAILED: manifest-verify_packet.py \u2014 derived file hash matches manifest",
+      "verdict": "swapped verifier lied (expected); caught by out-of-band pristine verifier",
+      "obb_check": {
+        "exit": 1,
+        "caught": true,
+        "detail": "FAIL: derived file verify_packet.py modified after build (or missing) [engines: cryptography, openssl]"
+      }
+    },
+    {
+      "id": "A06",
+      "category": "verifier",
+      "expectation": "must-catch",
+      "describe": "swap an artifact with the same-named file from a different packet",
+      "verifier_exit": 1,
+      "caught": true,
+      "detail": "FAIL: artifact artifacts/.builder-foundry__MISSION.md hash mismatch (record modified)",
+      "verdict": "caught as designed"
+    },
+    {
+      "id": "A07",
+      "category": "chain",
+      "expectation": "must-catch",
+      "describe": "delete a middle chain entry",
+      "verifier_exit": 1,
+      "caught": true,
+      "detail": "FAIL: envelope 3 chain_index does not match its position",
+      "verdict": "caught as designed"
+    },
+    {
+      "id": "A08",
+      "category": "chain",
+      "expectation": "must-catch",
+      "describe": "truncate the chain tail",
+      "verifier_exit": 1,
+      "caught": true,
+      "detail": "FAIL: artifacts/ completeness broken (stray: ['artifacts/live/ledger.jsonl', 'artifacts/live/ledger.sig.jsonl']; missing: none; stray dirs: ['artifacts/live'])",
+      "verdict": "caught as designed"
+    },
+    {
+      "id": "A09",
+      "category": "chain",
+      "expectation": "must-catch",
+      "describe": "swap two chain entries (reorder)",
+      "verifier_exit": 1,
+      "caught": true,
+      "detail": "FAIL: envelope 2 chain_index does not match its position",
+      "verdict": "caught as designed"
+    },
+    {
+      "id": "A10",
+      "category": "forgery",
+      "expectation": "must-catch",
+      "describe": "replace attestation signature with zeros",
+      "verifier_exit": 1,
+      "caught": true,
+      "detail": "FAIL: attestation signature invalid (signature invalid (engine disagreement counts as invalid)) [engines: cryptography, openssl]",
+      "verdict": "caught as designed"
+    },
+    {
+      "id": "A11",
+      "category": "forgery",
+      "expectation": "must-catch",
+      "describe": "re-sign the manifest over an altered report digest",
+      "verifier_exit": 1,
+      "caught": true,
+      "detail": "FAIL: derived file report.md modified after build (or missing) [engines: cryptography, openssl]",
+      "verdict": "caught as designed"
+    },
+    {
+      "id": "A12",
+      "category": "forgery",
+      "expectation": "boundary",
+      "describe": "attacker re-signs the intact chain with their OWN fresh key (valid signature, wrong signer) \u2014 packet-alone cannot know the key",
+      "verifier_exit": 1,
+      "caught": true,
+      "detail": "FAIL: manifest and attestation identity fields differ [engines: cryptography, openssl]",
+      "verdict": "UNEXPECTED CATCH (better than documented)"
+    },
+    {
+      "id": "A14",
+      "category": "incomplete",
+      "expectation": "must-catch",
+      "describe": "delete one artifact file",
+      "verifier_exit": 1,
+      "caught": true,
+      "detail": "FAIL: envelope 19 artifact missing: artifacts/.builder-foundry__blockers.json",
+      "verdict": "caught as designed"
+    },
+    {
+      "id": "A15",
+      "category": "incomplete",
+      "expectation": "must-catch",
+      "describe": "smuggle an unreferenced authoritative-looking file into artifacts/",
+      "verifier_exit": 1,
+      "caught": true,
+      "detail": "FAIL: artifacts/ completeness broken (stray: ['artifacts/AUDIT_APPROVAL.txt']; missing: none; stray dirs: none)",
+      "verdict": "caught as designed"
+    },
+    {
+      "id": "A16",
+      "category": "incomplete",
+      "expectation": "must-catch",
+      "describe": "remove the manifest entirely",
+      "verifier_exit": 1,
+      "caught": true,
+      "detail": "FAIL: manifest.json missing \u2014 derived files (report/replay/spec) are unsigned",
+      "verdict": "caught as designed"
+    },
+    {
+      "id": "A17",
+      "category": "format-level",
+      "expectation": "boundary",
+      "describe": "re-serialize each chain entry single-line but with different spacing (separators ', ' / ': ') \u2014 content identical, bytes different. Tamper-evidence seals CONTENT (parsed envelopes, canonical recompute), not byte layout. Passing is the documented correct behavior.",
+      "verifier_exit": 0,
+      "caught": false,
+      "detail": "PASS: chain intact, artifacts complete and intact, derived layer sealed by manifest, attestation valid [engines: cryptography, openssl]",
+      "verdict": "passes as designed \u2014 content is sealed, byte layout is not (documented boundary)"
+    },
+    {
+      "id": "A18",
+      "category": "chain",
+      "expectation": "must-catch",
+      "describe": "duplicate the final chain entry (append a copy of the tail)",
+      "verifier_exit": 1,
+      "caught": true,
+      "detail": "FAIL: envelope 22 chain_index does not match its position",
+      "verdict": "caught as designed"
+    },
+    {
+      "id": "A19",
+      "category": "capture-time",
+      "expectation": "must-catch",
+      "describe": "rewrite a mid-ledger entry AND recompute the whole hash chain consistently (no key needed for that) \u2014 capture-time signatures bound the original entry hashes, so the rewrite is detected packet-internally WITHOUT anchors",
+      "verifier_exit": 1,
+      "caught": true,
+      "detail": "FAIL: envelope 20 chain_prev must be 32-byte lowercase hex",
+      "verdict": "caught as designed"
+    },
+    {
+      "id": "A20",
+      "category": "capture-time",
+      "expectation": "must-catch",
+      "describe": "consistently truncate ledger AND sig stream AND re-seal envelope hashes (all cheaper detections stripped) \u2014 only the signed manifest length anchor remains to catch it",
+      "verifier_exit": 1,
+      "caught": true,
+      "detail": "FAIL: artifact artifacts/live/ledger.jsonl hash mismatch (record modified)",
+      "verdict": "caught as designed"
+    },
+    {
+      "id": "A13",
+      "category": "fabrication",
+      "expectation": "boundary",
+      "describe": "fabricated self-consistent GREEN run, real packet built from it (attacker signs with own key)",
+      "verifier_exit": 0,
+      "caught": false,
+      "detail": "PASS: chain intact, artifacts complete and intact, derived layer sealed by manifest, attestation valid [engines: cryptography, openssl]",
+      "verdict": "boundary held, anchor-detectable",
+      "anchor_check": {
+        "exit": 1,
+        "caught": true,
+        "detail": "FAIL: chain head does not match the published anchor (possible full re-forge)"
+      }
+    },
+    {
+      "id": "A21",
+      "category": "capture-time",
+      "expectation": "boundary",
+      "describe": "attacker identity performs a real live-signed run of a fabricated campaign and seals a genuine packet",
+      "verifier_exit": 0,
+      "caught": false,
+      "detail": "PASS: chain intact, artifacts complete and intact, derived layer sealed by manifest, attestation valid [engines: cryptography, openssl]",
+      "verdict": "boundary held, anchor-detectable",
+      "anchor_check": {
+        "exit": 2,
+        "caught": true,
+        "detail": ""
+      }
+    }
+  ]
+}

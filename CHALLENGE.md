@@ -1,103 +1,85 @@
 # The AAAP Challenge — Verify It, Then Try to Break It
 
-You have never met us. You should not trust us. This artifact asks you to do
-two things: verify a sealed record of an autonomous agent run using nothing
-but your own machine, and then attack that record. If you break it in a way
-we said was impossible, you found a vulnerability. If you break it in a way
-we documented, you confirmed the boundary.
+Treat this packet and its verifier as hostile input. Review `verify_packet.py`
+or run it in a disposable least-privilege environment. Hash-pinning detects a
+post-build verifier swap; it does not prove producer-supplied code is benign.
 
-## What you need
+## Requirements
 
-- Any macOS/Linux box with Python 3.10+ and EITHER the `cryptography`
-  package OR the `openssl` CLI (preinstalled almost everywhere).
-  No network. No other downloads. No trust in us required.
+- Python 3.10+; and
+- either the Python `cryptography` package or an OpenSSL build with Ed25519
+  `pkeyutl -rawin` support.
 
-## Step 1 — Verify the packet (2 minutes)
+Apple's stock `/usr/bin/openssl` did not provide the needed engine in the
+Daybreak clean-environment test. The verifier failed closed. Use
+`cryptography` or an Ed25519-capable OpenSSL build; do not interpret an
+installed `openssl` command as sufficient.
 
-```
+## Verify packet integrity
+
+```bash
 cd packet
 python3 verify_packet.py .
 ```
 
-Expected exit 0:
+Exit 0 verifies canonical chain meaning, exact artifact and derived-file bytes,
+the full manifest v2 control body, and every present signature under the engine
+set named in `verify.json`. JSON whitespace is not sealed. Duplicate keys,
+non-finite numbers, symlinks, hardlinks, special files, and extra artifact-tree
+entries are rejected.
 
-```
-PASS: chain intact, artifacts complete and intact, derived layer sealed by manifest, attestation valid [engines: cryptography, openssl]
-```
+## Verify current identity and revocation policy
 
-Every check the verifier ran is listed in `verify.json` — nothing is
-aggregated away. On a machine without the `cryptography` package the
-openssl CLI carries verification alone (engine list will show it).
+Acquire `anchors.json` separately from both repository snapshots, record their
+commit SHAs through a trusted channel, then run:
 
-## Step 2 — Verify IDENTITY, not just integrity (1 minute)
-
-Step 1 proves the packet is internally consistent — but anyone can build a
-consistent packet with their own key (that is boundary A21 below). The
-pubkey and chain head WE claim are published out-of-band in `anchors.json`
-(check them against our git history too). Verify against them:
-
-```
-python3 verify_packet.py . --expected-head <anchors.json packets[0].chain_head> \
-                           --expected-pubkey <anchors.json identities[0].pubkey>
+```bash
+python3 verify_packet.py . \
+  --anchor-registry ../anchors.json \
+  --anchor-registry /path/to/aaap-anchors/anchors.json \
+  --packet-name demo/packet
 ```
 
-Exit 0 = this packet came from the identity we published. That is the whole
-trust model: packets prove integrity, published anchors decide identity.
+The files must be distinct and byte-identical. The selected identity must be
+active and valid on the packet's declared sealing date. This checks file
+agreement; it cannot prove independent acquisition or independent repository
+control.
 
-## Step 3 — Attack it
+For forensic verification of an exact historic packet, use a trusted head and
+pubkey together with `--expected-head` and `--expected-pubkey`. That mode
+intentionally does not consult later revocation state.
 
-Copy the packet and mutate it. Some attacks to try, all caught:
+## What a PASS proves
 
-```
-cp -R packet f && echo x >> f/report.md                       # edit the human report
-cp -R packet f && printf ' ' >> f/artifacts/live/ledger.jsonl # edit sealed bytes
-cp -R packet f && python3 -c "from pathlib import Path;L=Path('f/chain.jsonl').read_text().splitlines();del L[2];Path('f/chain.jsonl').write_text('\n'.join(L))"
-cp -R packet f && echo fake >> f/artifacts/EXTRA.txt          # smuggle a file
-```
+1. Sealed artifact and derived-file bytes match their authenticated hashes.
+2. Canonical envelope meaning and order reach the attested chain head.
+3. Every manifest policy field is authenticated, including live verification.
+4. Each present signature verifies under the packet identity.
+5. Anchored mode selects the expected exact packet and key; registry mode also
+   enforces the revocation and validity policy in the supplied registry bytes.
 
-Run `python3 f/verify_packet.py f` after each. Every one exits 1 and names
-the broken check. The interesting attack: rewrite a ledger entry AND
-recompute the entire hash chain consistently — the capture-time signatures
-still catch it without any anchors (exercise attack A19).
+## What a PASS does not prove
 
-## What this packet proves
+- world truth, product quality, or model reasoning;
+- when a signature occurred or that it occurred inside the claimed execution
+  path rather than later under the same key;
+- Keychain, hardware, or other private-key custody;
+- that the operator label truly owns the key without trusting anchor acquisition;
+- a stable directory after verification; reverify preserved hashes before use;
+- a benign verifier or uncompromised host;
+- independent origin: both public repositories currently share the
+  `github.com/cjchanh` account.
+- registry freshness: two agreeing old snapshots cannot reveal a later
+  revocation; freshness must come from the acquisition channel.
+- availability against oversized input; apply OS CPU, memory, file-size, and
+  process limits when verifying an untrusted packet.
 
-1. Every sealed byte of the run record is unchanged since build.
-2. The record's order is unchanged (no insert/delete/reorder anywhere).
-3. The human-readable report cannot be edited without detection.
-4. The governed run's ledger entries were each signed BY THE IDENTITY KEY
-   AT THE MOMENT THEY HAPPENED (capture-time signatures) — including the
-   action that was BLOCKED. Refusals testify too.
-5. The signature verified under two independent Ed25519 implementations
-   (when both are available on your machine).
+## Break criteria
 
-## Known limitations — read before claiming a break
+A reproducible break is a changed authenticated meaning or byte payload that
+still passes, an unsafe filesystem side effect, an anchor/revocation mismatch
+that passes the corresponding mode, or a reported engine agreement that did not
+occur. A documented external boundary is a limitation, not a cryptographic fix.
 
-- **Re-forge with a fresh key** (A21): anyone can run the tools and produce
-  a perfectly verifying packet signed by their own identity. That is why
-  Step 2 exists: identity comes from published anchors, never from the
-  packet itself.
-- **Swapped verifier** (A05): a tampered verifier can lie about its own
-  verification. The manifest seals the verifier's hash — diff
-  `verify_packet.py` against a copy from an independent source before
-  trusting a PASS.
-- **World-truth**: if the governed system recorded a false statement at
-  capture time, the packet seals the false statement. This is a flight data
-  recorder, not a lie detector.
-- **Time**: timestamps are producer-claimed ordering, not attested.
-- **Layout**: content is sealed, not byte layout — re-serializing chain.jsonl
-  with different whitespace still verifies (documented, attack A17).
-- **Custody**: the signing identity is currently a Stage-0 key
-  (permission-enforced file — see docs/AAAP_KEY_CUSTODY.md). The demo
-  threat model assumes no targeted same-user compromise.
-
-The full 21-attack adversarial exercise (including the two attacks that
-initially got PAST our own expectations and what they taught) is in
-`docs/AAAP_ADVERSARIAL_EXERCISE.md`.
-
-## What counts as a break
-
-A mutation of any sealed content that still verifies, OR an anchor-mismatch
-that passes Step 2, OR a verifier disagreement we reported as PASS. Report
-it and it becomes a row in the exercise with your name on it. Boundaries
-listed above are confirmations, not breaks.
+The v0.3 post-release breaks and v0.4 remediations are documented in
+`../docs/AAAP_POST_RELEASE_SECURITY.md`.

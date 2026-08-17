@@ -1,55 +1,45 @@
-# AAAP — Attested After-Action Packet: Public Challenge
+# AAAP v0.4 — Hardened Post-Release Challenge
 
-**A sealed, capture-time-signed evidence record of an autonomous agent run.
-It doesn't answer. It testifies. Verify it yourself — then try to break it.**
+AAAP v0.3 at commit
+`e0fca96651b30c76d0a29bf867cdd14cdc38db00` is preserved as an immutable,
+reproducibly vulnerable historical release. This repository candidate is its
+hardened successor.
 
-- Start here: **[CHALLENGE.md](CHALLENGE.md)** — verify in 2 minutes with
-  nothing but Python 3.10+ and the `openssl` CLI (no other dependencies,
-  no network, no trust in us required).
-- Identity anchors: **[anchors.json](anchors.json)** — mirrored at a second
-  origin: https://github.com/cjchanh/aaap-anchors (compare both; they must
-  agree).
-- What it proves / does not prove: [docs/AAAP_PROVES.md](docs/AAAP_PROVES.md)
-- Threat model: [docs/AAAP_THREAT_MODEL.md](docs/AAAP_THREAT_MODEL.md)
-- Our own 21-attack exercise (including two attacks that initially got past
-  us): [docs/AAAP_ADVERSARIAL_EXERCISE.md](docs/AAAP_ADVERSARIAL_EXERCISE.md)
-- Step-by-step walkthrough: [WALKTHROUGH.md](WALKTHROUGH.md)
+The v0.4 packet preserves the v0.3 `chain.jsonl`, `artifacts/`, and
+`attestation.json` byte-for-byte. It regenerates the human/verification layer
+and signs manifest schema v2 with the same anchored production identity. The
+chain head and public key therefore remain:
 
-## The one-paragraph version
+- head: `14d14281170d89f6f8b918daf6541f81e7e13549dd4c66f5b085304ff6a61724`
+- pubkey: `e7fb4aad8b0e0246eb6569f49d301ad88a0b54333e3de8bb57e02e118fd3716c`
 
-Every governed action in the sealed run — including the action that was
-**BLOCKED** — was signed by an Ed25519 identity key **at the moment it
-happened**, inside the run's execution path. The packet proves: bytes
-unchanged since build, order unchanged, report un-editable, signatures valid
-under independent implementations. It does not prove: world truth, time, or
-that a fresh-key re-forge is impossible (that is what the anchors are for).
-Every boundary is stated in the packet itself.
+Start with [CHALLENGE.md](CHALLENGE.md). The complete v0.3 reproducer and
+machine results are under `security/`; the post-release finding ledger is
+[docs/AAAP_POST_RELEASE_SECURITY.md](docs/AAAP_POST_RELEASE_SECURITY.md).
 
-## Verify (zero installs beyond Python; openssl carries it alone)
+## Verify
 
-```
-git clone https://github.com/cjchanh/aaap-challenge
-cd aaap-challenge/packet
-python3 verify_packet.py .
+Requirements: Python 3.10+ and either the Python `cryptography` package or an
+OpenSSL build with Ed25519 `pkeyutl -rawin` support.
+
+```bash
+cd packet
+python3 verify_packet.py . \
+  --expected-head 14d14281170d89f6f8b918daf6541f81e7e13549dd4c66f5b085304ff6a61724 \
+  --expected-pubkey e7fb4aad8b0e0246eb6569f49d301ad88a0b54333e3de8bb57e02e118fd3716c
 ```
 
-With anchors (identity, not just integrity) — fetch the mirrored anchors and
-check agreement first:
+For registry-policy verification, independently acquire both exact registry
+snapshots and use `--packet-name demo/packet`. Both repositories are controlled
+by `github.com/cjchanh`: they are two Git histories, not two administrative or
+custodial trust origins.
 
-```
-git clone https://github.com/cjchanh/aaap-anchors /tmp/anchors
-diff anchors.json /tmp/anchors/anchors.json        # must be identical
-HEAD=$(python3 -c "import json;print(json.load(open('/tmp/anchors/anchors.json'))['packets'][0]['chain_head'])")
-PUB=$(python3  -c "import json;print(json.load(open('/tmp/anchors/anchors.json'))['identities'][0]['pubkey'])")
-python3 verify_packet.py . --expected-head "$HEAD" --expected-pubkey "$PUB"
-```
+## Narrow claim
 
-## Attack it
+A PASS authenticates the checked bytes, canonical envelope semantics, ordering,
+manifest policy, and signatures under the supplied anchor. It does not prove
+world truth, signing time, Keychain custody, operator ownership, verifier/host
+benevolence, registry freshness, or independent origin.
 
-Mutation attacks (all caught, each named): see CHALLENGE.md step 3. What
-counts as a break is defined there. Boundaries we already document are
-confirmations, not breaks — finding a NEW one past them is the game.
-
-Operator: Centennial Defense Systems. Production signing identity:
-`aaap-id-2f28c662cb4b30c1` (Keychain custody; see
-[docs/AAAP_IDENTITY_TRANSITION.md](docs/AAAP_IDENTITY_TRANSITION.md)).
+Hardening source commit:
+`539e70c28c9c23f680408a8eb3c51f37978876e5`.

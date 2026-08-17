@@ -1,4 +1,4 @@
-# After-Action Report — Attested Evidence Packet v0.1
+# After-Action Report — Attested Evidence Packet v0.4
 
 Generated: 2026-08-17T21:17:23Z
 
@@ -34,10 +34,10 @@ Generated: 2026-08-17T21:17:23Z
 
 Run the standalone verifier: `python3 verify_packet.py .` from this directory.
 - Chain head: `14d14281170d89f6f8b918daf6541f81e7e13549dd4c66f5b085304ff6a61724`
-- Attestation: deponent-attestation/v1, operator `cds/aaap-id-2f28c662cb4b30c1`, Ed25519 (ephemeral build key — integrity, not persistent identity).
+- Attestation: deponent-attestation/v1, operator `cds/aaap-id-2f28c662cb4b30c1`, Ed25519 (persistent Ed25519 identity — possession proven; custody location is an external operational claim).
 
 ## Limits (stated, not hidden)
 
-- Ephemeral signing key: proves packet integrity, not a persistent operator identity.
+- Persistent identity signatures prove key possession, not Keychain or hardware custody and not the timing of the signing operation.
 - A full re-forge (entire chain rebuilt + re-signed) is only detectable against an out-of-band copy of the chain head.
 - Guard green/red is structural; this packet testifies to the run record, not to product quality.

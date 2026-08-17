@@ -1,12 +1,18 @@
 # AAAP Production Identity Transition — 2026-08-17
 
+> Historical operational record. Its original security conclusion is
+> superseded by `AAAP_POST_RELEASE_SECURITY.md`. Key-generation and deletion
+> statements below are operator-reported events, not packet-verifiable facts.
+
 ## Decision
 
-The production AAAP signing identity is **aaap-id-2f28c662cb4b30c1**
-(Ed25519, pubkey `e7fb4aad…8fd3716c`), generated **in memory and stored
-directly into the macOS user Keychain** (service `cds-aaap-identity`,
-account `production`). Its private key has never existed as a raw
-filesystem object. Custody stage 1 per `docs/AAAP_KEY_CUSTODY.md`.
+The operator reports that production AAAP signing identity
+**aaap-id-2f28c662cb4b30c1** (Ed25519, pubkey
+`e7fb4aad…8fd3716c`) was generated in memory and stored directly into the
+macOS user Keychain (service `cds-aaap-identity`, account `production`). The
+packet cannot prove that generation path or exclude prior raw-file exposure.
+Custody stage 1 is an operational classification per
+`docs/AAAP_KEY_CUSTODY.md`.
 
 The predecessor identity **aaap-id-ef9eef6cb68a8850** is **RETIRED** and
 marked revoked in `demo/anchors.json` (its pubkey is retained there so
@@ -35,9 +41,9 @@ was ever published externally, so no external consumer is affected.
 - Packet/manifest/live-signature formats: unchanged. No new cryptography.
   Signing now loads the key from the Keychain (`--identity-key
   keychain:production`); retrieval failure remains fail-closed.
-- All AAAP guarantees are re-proven post-migration: full test suite,
-  21-attack adversarial exercise, and a packet-only OpenSSL-only
-  verification against the regenerated demo packet and anchors.
+- The migration's original 21-attack exercise passed, but that conclusion is
+  withdrawn for v0.3: the post-release review found reproducible violations
+  outside that suite. See `AAAP_POST_RELEASE_SECURITY.md`.
 - Known residual (unchanged from the custody roadmap): a compromised host
   with an unlocked user keychain can still invoke the signing oracle;
   hardware-key custody (S2) is the documented next stage, deliberately not

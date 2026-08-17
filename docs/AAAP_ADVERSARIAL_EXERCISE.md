@@ -1,4 +1,9 @@
-# AAAP v0.1 Adversarial Exercise — Results
+# AAAP Adversarial Exercise — Historical v0.3 Results and Post-Release Breaks
+
+**Current status: the original PASS verdict is withdrawn.** The 21-case suite
+below passed, but it did not attack unsigned manifest policy, strict parser
+agreement, output-path side effects, or non-regular package entries. Daybreak
+reproduced those violations against public commit `e0fca96651b30c76d0a29bf867cdd14cdc38db00`.
 
 Subject: demo/packet (chain head `2191ca7bbd33…454787b56`, operator key
 published out-of-band in the exercise output `ANCHORS.md`).
@@ -27,8 +32,27 @@ The attacker code shares nothing with the verifier.
 | A15 | incomplete | smuggle unreferenced "audit approval" file | **caught** (completeness) |
 | A16 | incomplete | remove manifest | **caught** (structure) |
 
-Exercise verdict: **PASS** — every must-catch attack caught; every boundary
-mechanically detectable with published anchors.
+Historical exercise verdict: **SUPERSEDED**. Every attack the suite attempted
+was classified as expected, but the suite did not cover the post-release break
+classes and therefore did not justify a release PASS.
+
+## Daybreak post-release additions
+
+| id | class | attack against v0.3 | v0.3 result | v0.4 regression |
+|---|---|---|---|---|
+| A22 | policy | remove manifest `live` verification policy | **PASS (break)** | fail |
+| A23 | claims | rewrite manifest key model/schema | **PASS (break)** | fail |
+| A24 | claims | rewrite attestation schema/add custody claim | **PASS (break)** | fail |
+| A25 | parser | duplicate chain key with conflicting first value | **PASS (break)** | fail |
+| A26 | parser | non-standard `NaN` in manifest | **PASS (break)** | fail |
+| A27 | filesystem | `verify.json` symlink overwrites sealed report | **PASS + overwrite (break)** | fail before write |
+| A28 | packaging | dangling artifact symlink | **PASS (break)** | fail |
+| A29 | packaging | derived-file symlink escape | **PASS (break)** | fail |
+| A30 | anchors | same-file/disagreeing/revoked registry path | not enforced | fail |
+| A31 | claims | signing-time, custody, portability, independent-origin language | overstated | corrected |
+
+See `AAAP_POST_RELEASE_SECURITY.md` and
+`security/aaap_v03_reproducers.py` for evidence and reproduction.
 
 ## What the exercise got wrong on its first run (and why that matters)
 

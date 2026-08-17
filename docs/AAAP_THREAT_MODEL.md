@@ -1,52 +1,43 @@
-# AAAP Threat Model v0.1
+# AAAP Threat Model v0.4
 
-Assets: (A1) the sealed run record (chain + artifacts), (A2) the derived
-human layer (report/spec/README), (A3) the attestation signatures,
-(A4) the verifier itself.
+Assets are the sealed artifact bytes, canonical envelope chain, derived files,
+attestation, full manifest control body, live-signature stream, verifier, and
+anchor registry. The attacker may edit or repackage the directory, supply
+malformed JSON, reorder content, substitute anchors, or exploit filesystem
+objects. The host and acquisition channel are separate trust boundaries.
 
-Adversaries: (E1) the supervised agent or a downstream editor wanting to
-rewrite history after the fact; (E2) a forger constructing a favorable packet
-from scratch; (E3) a courier swapping packets between build and review;
-(E4) a subverted verification environment.
+## Detected by the hardened verifier
 
-## Detected (verification fails, check named)
-
-| Attack | Caught by |
+| Attack | Enforcement |
 |---|---|
-| Edit any byte of any sealed artifact copy | envelope artifact hash |
-| Edit any envelope field (incl. re-sealing the hash) | receipt_hash recompute |
-| Insert / delete / reorder any chain entry | chain_prev link check |
-| Truncate the tail of the chain | attestation head binding |
-| Edit report.md, replay.json, PACKET.md, ENVELOPE.md | manifest digest map |
-| Swap or edit verify_packet.py | manifest digest map |
-| Forged / replaced attestation signature | Ed25519 verify (dual engine) |
-| Forge the manifest over altered derived files | manifest signature + digests |
-| Reference a path outside the packet | path-escape check |
-| Smuggle an unreferenced file into artifacts/ | completeness check |
-| Single crypto-library bug/subversion | dual-engine agreement (fail-closed on disagreement) |
-| Missing manifest / missing attestation / empty chain | structure checks (absent ≠ valid) |
+| Artifact or derived-file byte change | envelope/manifest SHA-256 |
+| Envelope edit, insertion, deletion, reorder, or truncation | canonical hash, links, attested head |
+| Duplicate JSON keys or `NaN`/`Infinity` | strict JSON parser |
+| Manifest live policy, key model, schema, or operator edit | v2 full-control-body signature |
+| Missing live policy | exact v2 manifest fields; `live` is signed object or signed null |
+| Attestation schema edit or unsigned extra claim | exact fields plus schema check |
+| Symlink, hardlink, special file, or unreferenced artifacts entry | plain-file and complete-tree checks |
+| Unsafe `verify.json` output symlink/hardlink | pre-write rejection plus atomic replacement |
+| Anchor head/pubkey mismatch | paired anchor check |
+| Two registry snapshots disagree | byte-for-byte comparison; trust neither |
+| Revoked, duplicate, unknown, or out-of-window identity | registry policy validation |
+| Crypto-engine disagreement on a checked signature | fail-closed signature verdict |
 
-## Not detected (stated boundaries)
+## Boundaries
 
-| Boundary | Why | Mitigation |
+| Boundary | Consequence | Required mitigation |
 |---|---|---|
-| Full re-forge: rebuild chain + derived files + re-sign with a fresh key | anyone can generate a key; the packet carries an ephemeral key by design | compare chain head + pubkey against an out-of-band published copy (the demo package publishes them); persistent identity keys are separately gated future work |
-| Producer-true-but-false records | if the governed run lied into its own ledger at capture time, sealing cannot correct it — sealing proves integrity of the record, not the truth of the world | pair with verification-oriented capture (gates that check outputs before recording), which is the governed layer's job upstream of the packet |
-| Timestamps | builder wall clock, not attested | treat all times as producer-claimed ordering hints |
-| Cryptographic-lib + CLI collusion | both engines subverted identically | out-of-band verifier diff (manifest seals the verifier hash) |
+| Producer records false data | false content is sealed faithfully | upstream gates and independent evidence |
+| Same key signs later or signs conflicting history | signature timing and uniqueness are not proven | protected signing policy, rotation, external witnesses |
+| Fresh-key full re-forge | standalone packet verifies | trusted exact head + pubkey |
+| Shipped verifier is malicious | executing it can lie or harm the host | audit/diff and sandbox; pin verifier hash externally |
+| Verification host is subverted | all local checks can be forged | independent host/implementation |
+| Packet mutates concurrently | PASS describes reads during one call, not future state | stable snapshot or immutable archive, then reverify |
+| Both GitHub repos share one account | account compromise can rewrite both | neutral host/witness and signed releases |
+| Both supplied registries are stale | later revocation is invisible | trusted freshness channel or transparency witness |
+| Stock macOS lacks an Ed25519-capable engine | verification fails closed | `cryptography` or an Ed25519-capable OpenSSL build |
+| Oversized packet consumes time, disk, or memory | availability can be exhausted without a verification bypass | least-privilege sandbox plus OS resource limits |
 
-## Key handling
-
-Build generates an ephemeral Ed25519 keypair in memory; the private key never
-touches disk and is destroyed at build exit. The public key is embedded in
-attestation.json and manifest.json. There is no key store, no rotation, no
-transport — v0.1 deliberately has no key lifecycle to attack. The signing
-construction is deponent `operator_attest/v1`, imported unmodified; the
-openssl CLI is used only as an independent verifier of the same signature.
-
-## Honest scope statement
-
-AAAP v0.1 is tamper-evidence and verifiable integrity for an autonomous
-run's record — a flight data recorder, not a court. It converts "trust the
-agent's summary" into "verify the sealed record, and know exactly which
-questions it cannot answer."
+The current protocol provides tamper evidence and exact anchored identity under
+these assumptions. It is not a timestamp authority, custody attestation,
+transparency log, notarization system, or proof of world truth.

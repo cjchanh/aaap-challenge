@@ -21,8 +21,12 @@ third party recomputes it:
 ## Canonicalization (exact)
 
 1. copy the envelope object; set `receipt_hash` to the empty string
-2. serialize with recursively sorted keys, compact separators (`,` `:`)
+2. serialize with recursively sorted keys, compact separators (`,` `:`),
+   `ensure_ascii=true`, and non-finite numbers disabled
 3. sha256 over the UTF-8 bytes, lowercase hex
+
+Input JSON must contain exactly the documented top-level fields. Duplicate
+keys and `NaN`/`Infinity` are rejected before canonicalization.
 
 ## Extensions (documented, do not alter v1.0 semantics)
 
@@ -32,8 +36,8 @@ third party recomputes it:
 
 ## Determinism
 
-Verification is deterministic: identical packet bytes yield identical
-verdicts on any host. Construction is NOT deterministic: envelope ids and
+Verification is deterministic for the same stable packet snapshot, supported
+Python semantics, and crypto-engine behavior. Construction is NOT deterministic: envelope ids and
 timestamps differ per build, so rebuilding the same campaign produces a
 different (equally valid) chain head. Determinism claims apply to
 verification only.

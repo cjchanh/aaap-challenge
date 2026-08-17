@@ -1,62 +1,41 @@
-# AAAP Architecture — v0.1
+# AAAP Architecture — v0.4
 
-## Build path (producer side, private key lives only here)
+## Producer path
 
-```
-governed campaign run (Builder Foundry)
-        │  .builder-foundry/ contract, ledgers, evidence manifest,
-        │  run_receipt.json (guard results, engine telemetry, stop reason)
-        ▼
-┌──────────────────────┐   copy + hash        ┌──────────────────────────┐
-│  evidence_packet.py  │ ───────────────────► │ artifacts/ (raw bytes)   │
-│       (builder)      │                      └──────────────────────────┘
-│                      │   seal each source
-│                      │ ───────────────────► chain.jsonl
-│                      │                      one EVIDENCE_ENVELOPE v1.0
-│                      │                      per source; envelope i seals
-│                      │                      envelope i-1 (hash chain)
-│                      │
-│  ephemeral Ed25519   │   sign chain head ─► attestation.json
-│  (in-memory only,    │   sign derived-map ─► manifest.json
-│   destroyed at exit) │                      (report/replay/spec/verifier)
-└──────────────────────┘
-        │  derived layer (sealed by manifest, never self-asserted)
-        ├──► report.md      human after-action summary
-        ├──► replay.json    recomputation + run summary (scope stated)
-        ├──► ENVELOPE.md    field spec: producer + recompute per field
-        ├──► PACKET.md      what this is / is not
-        └──► verify_packet.py  standalone verifier (own hash sealed)
-        │
-        ▼  final self-verification runs the SHIPPED verifier as a fresh
-           process; build fails unless it exits 0
-```
+1. Copy each governed source artifact into `artifacts/` and hash its exact bytes.
+2. Emit one strict canonical envelope per artifact and link it to the prior hash.
+3. Sign the final chain head with the selected Ed25519 identity.
+4. If a live ledger is supplied, verify its chain and per-entry signatures,
+   copy both streams into artifacts, and place length/head/path policy in `live`.
+5. Generate report, replay scope, packet guide, envelope spec, and verifier.
+6. Sign manifest schema v2 over every control field except the signature itself:
+   schema, exact derived-file map, key model, operator id, public key, and the
+   complete live object or explicit null.
+7. Run the shipped verifier as a fresh process; refuse the packet if it fails.
 
-## Verify path (third party, packet + Python only)
+## Third-party verifier path
 
-```
-verify_packet.py <packet>
-        │
-        1. structure: chain + attestation + manifest + artifacts/ present
-        2. per envelope: receipt_hash recompute (v1.0 canonicalization)
-        3. per envelope: chain_prev link to prior envelope
-        4. per envelope: artifact copy hashes to sealed sha256
-        5. completeness: artifacts/ == referenced set (nothing smuggled)
-        6. attestation: Ed25519 over RECOMPUTED chain head
-           ├── engine 1: python cryptography
-           └── engine 2: openssl CLI (fail-closed on disagreement)
-        7. manifest: every derived file hashes to its entry;
-           signature over the digest map
-        ▼
-   exit 0 + verify.json (every check listed)   |   exit 1 + named broken check
-```
+1. Require the exact packet-root allowlist and plain regular inputs; reject
+   unsealed root claims, symlinks, hardlinks, special files, and unreferenced
+   artifact directories or entries.
+2. Parse JSON with duplicate-key and non-finite-number rejection.
+3. Recompute every envelope hash, position, link, signal/artifact digest
+   binding, artifact hash, and the attested head.
+4. Validate exact attestation fields and signature.
+5. Validate exact manifest v2 fields, derived-file allowlist, and signature over
+   the full manifest control body.
+6. Recompute live ledger order/head and every per-entry signature when `live`
+   is present.
+7. Intersect actual verifier engines across every signature check; disagreement
+   or inconsistent coverage fails.
+8. Optionally require a paired exact anchor, or two distinct byte-identical
+   active registries.
+9. Reject an unsafe `verify.json` target and write results atomically.
 
-## Trust anchors
+## Trust boundaries
 
-- One ephemeral key signs exactly two things: the chain head and the
-  derived-file digest map. It exists for the duration of one build.
-- The verifier is shipped in-packet AND hash-pinned by the manifest, so it
-  can be diffed against an independently published copy.
-- Verification is recompute-only: the verifier reads nothing from the
-  producer at run time and writes only verify.json.
-- The only claims the packet makes about the world are the sealed bytes;
-  meaning-level claims live in the report and are labeled as derived.
+- The signing key may be persistent, but a signature proves use, not custody.
+- Per-entry signatures bind content and index, not wall-clock or causal timing.
+- The verifier is executable producer code; audit or sandbox it.
+- Verification assumes a stable filesystem snapshot for the duration of a run.
+- Two repositories under one GitHub account are not independent custody.

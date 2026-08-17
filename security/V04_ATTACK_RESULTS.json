@@ -1,0 +1,89 @@
+[
+  {
+    "case": "manifest_live_removed",
+    "exit": 1,
+    "caught": true
+  },
+  {
+    "case": "manifest_key_model_tampered",
+    "exit": 1,
+    "caught": true
+  },
+  {
+    "case": "manifest_schema_tampered",
+    "exit": 1,
+    "caught": true
+  },
+  {
+    "case": "manifest_nan",
+    "exit": 1,
+    "caught": true
+  },
+  {
+    "case": "attestation_schema_tampered",
+    "exit": 1,
+    "caught": true
+  },
+  {
+    "case": "attestation_extra_custody",
+    "exit": 1,
+    "caught": true
+  },
+  {
+    "case": "unreferenced_directory",
+    "exit": 1,
+    "caught": true
+  },
+  {
+    "case": "dangling_artifact_symlink",
+    "exit": 1,
+    "caught": true
+  },
+  {
+    "case": "unsealed_root_claim",
+    "exit": 1,
+    "caught": true
+  },
+  {
+    "case": "duplicate_chain_key",
+    "exit": 1,
+    "caught": true
+  },
+  {
+    "case": "derived_symlink_escape",
+    "exit": 1,
+    "caught": true
+  },
+  {
+    "case": "verify_output_symlink",
+    "exit": 1,
+    "caught": true,
+    "target_unchanged": true
+  },
+  {
+    "case": "source_verify_output_symlink",
+    "exit": 1,
+    "caught": true,
+    "target_unchanged": true
+  },
+  {
+    "case": "single_anchor_argument",
+    "exit": 2,
+    "caught": true
+  },
+  {
+    "case": "engine_disagreement",
+    "exit": 1,
+    "caught": true
+  },
+  {
+    "case": "no_signature_engine",
+    "exit": 1,
+    "caught": true
+  },
+  {
+    "case": "baseline",
+    "exit": 0,
+    "caught": true
+  }
+]

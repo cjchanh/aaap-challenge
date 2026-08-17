@@ -1,74 +1,55 @@
-# AAAP Trust Root — Anchor Format, Registry, and the Proof/Trust Split
+# AAAP Trust Root — Current Reality
 
-Status: v1 design, implemented by `demo/anchors.json` + the verifier's
-`--expected-head` / `--expected-pubkey` flags. Nothing here changes what a
-packet proves; it defines how a stranger decides *whose* packet to trust.
+Packet cryptography proves integrity under a public key. It does not prove who
+owns that key. The actual trust root is how the verifier obtained the exact
+chain head, public key, verifier code, and revocation state.
 
-## The split (the one sentence)
+## Current public topology
 
-A packet PROVES integrity internally (bytes, order, capture-time signatures);
-IDENTITY trust — that this pubkey belongs to the operator it claims — can
-only come from OUT-of-band publication. The anchor registry is that
-out-of-band surface. Neither substitutes for the other.
+- `github.com/cjchanh/aaap-challenge`
+- `github.com/cjchanh/aaap-anchors`
 
-## Anchor format (`aaap-anchors/1`)
+These are separate repositories with separate Git object histories, but both
+are controlled by the same GitHub account and the published v0.3 root commits
+are unsigned. The split can expose an accidental edit or a compromise scoped
+to one repository. It does not resist account-owner action, account compromise,
+GitHub control-plane compromise, or coordinated rewrite.
 
-```json
-{
-  "schema": "aaap-anchors/1",
-  "identities": [
-    {
-      "identity_id": "aaap-id-ef9eef6cb68a8850",
-      "algorithm": "ed25519",
-      "pubkey": "<64-byte hex>",
-      "operator": "Centennial Defense Systems",
-      "valid_from": "2026-08-17",
-      "revoked": false
-    }
-  ],
-  "packets": [
-    {
-      "name": "demo/packet",
-      "chain_head": "<sha256 of chain.jsonl tail envelope>",
-      "pubkey_identity": "aaap-id-ef9eef6cb68a8850",
-      "sealed_at": "2026-08-17"
-    }
-  ]
-}
-```
+Calling the second repository an independent origin is inaccurate. The precise
+claim is **two same-account repository histories**. An exact commit SHA supplied
+through a separate trusted channel is a content pin, not an author signature.
 
-Verification against anchors:
+## Hardened verification modes
+
+Historical exact pin:
 
 ```bash
-python3 verify_packet.py <packet> --expected-head <chain_head> --expected-pubkey <pubkey>
+python3 verify_packet.py packet \
+  --expected-head <trusted-64-hex-head> \
+  --expected-pubkey <trusted-64-hex-pubkey>
 ```
 
-Both flags fail closed on mismatch. A packet that verifies standalone but
-fails its anchor is internally honest history from the WRONG signer —
-exactly what attack A21 in the adversarial exercise demonstrates.
+Both values are mandatory together. This proves an exact historic packet even
+if the identity is later revoked; it does not consult current policy.
 
-## Registry design
+Current registry policy:
 
-Current (v1, honest): the anchors file lives in this repository, committed
-with the packets it covers. This binds packet identity to git history —
-tamper-evident via commits, but same-origin as the packets.
+```bash
+python3 verify_packet.py packet \
+  --anchor-registry /independently/acquired/challenge/anchors.json \
+  --anchor-registry /independently/acquired/anchor-repo/anchors.json \
+  --packet-name packet
+```
 
-Evolution path (not yet built, by design):
-1. **Cross-origin publication** — anchors mirrored to a second origin the
-   packet producer does not control (separate repo/org, signed git tag).
-   Defeats same-origin registry rewrite.
-2. **Append-only + signed registry** — each anchors release signed by the
-   identity key; revocations are explicit rows, never deletions.
-3. **Registry independence** — a neutral host (standards body or multi-party
-   mirror) so compromise requires attacking the registry AND the key.
+The verifier requires two distinct, byte-identical files and rejects revoked,
+unknown, duplicate, or out-of-window identities. It cannot prove that the two
+files came from independent origins or that they are the newest published
+state. Acquisition and freshness remain the reviewer's duty; two matching old
+snapshots cannot reveal a later revocation.
 
-Until (1) lands, the honest claim is: anchors bind packets to git history in
-this repository, which is stronger than packet-self-assertion and weaker
-than cross-origin publication. State it that way.
+## Required next trust upgrade
 
-## What anchors do NOT do
-
-- They do not make a packet's contents true (world-truth stays out of scope).
-- They do not attest time.
-- They do not detect a compromised identity key that signs two conflicting
-  histories — that requires key rotation + revocation semantics (v2).
+Publish the same registry and release hashes through a neutral account or host,
+sign releases with a separately protected release key, and retain append-only
+history in an externally witnessed transparency surface. Until then, the
+same-account boundary must remain explicit.

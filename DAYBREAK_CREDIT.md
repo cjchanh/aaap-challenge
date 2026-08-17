@@ -5,7 +5,8 @@ exercise with your name on it."* This page keeps that promise.
 
 ## The break
 
-Independent "Daybreak" evaluation found **11 mutation classes that returned
+A commissioned "Daybreak" adversarial evaluation (separate session under
+the same operator — not an independent third party) found **11 mutation classes that returned
 anchored PASS** against the v0.3 release (`e0fca96`), all reproduced by the
 operator's second audit and confirmed real:
 
@@ -38,6 +39,7 @@ Daybreak report and re-run as regression cases.
 ## What this proves about the model
 
 The release strategy was ship → invite attack → fix named findings →
-reship. This page is the second turn of that loop. The first external
-attacker found in one pass what 21 internal attacks and 261 tests did not.
+reship. This page is the second turn of that loop. The first commissioned
+adversarial pass found in one pass what 21 internal attacks and 261 tests
+did not. Truly external attack remains invited — this page will credit it.
 That is the system working, and it is why the challenge exists.

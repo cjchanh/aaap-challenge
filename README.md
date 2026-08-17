@@ -41,5 +41,5 @@ manifest policy, and signatures under the supplied anchor. It does not prove
 world truth, signing time, Keychain custody, operator ownership, verifier/host
 benevolence, registry freshness, or independent origin.
 
-Hardening source commit:
-`539e70c28c9c23f680408a8eb3c51f37978876e5`.
+Hardening source: local working commit in the operator's private
+workspace; the published lineage is `e0fca96` -> `8f5ba31f` -> `c06b163`.

@@ -10,8 +10,8 @@
   against that same production-signed packet.
 
 The additional malicious-test-signer semantic cases and source-CLI regression
-are in hardening source commit
-`539e70c28c9c23f680408a8eb3c51f37978876e5`.
+were produced in the operator's local hardening workspace (not a
+published commit); published lineage: `e0fca96` -> `8f5ba31f` -> `c06b163`.
 
 These files are audit evidence, not an independent witness. The code, release,
 and both GitHub repositories remain under the same operator/account boundary.

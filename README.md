@@ -1,8 +1,8 @@
-# AAAP v0.4 — Hardened Post-Release Challenge
+# AAAP v0.5 — Hardened Post-Release Challenge
 
 AAAP v0.3 at commit
 `e0fca96651b30c76d0a29bf867cdd14cdc38db00` is preserved as an immutable,
-reproducibly vulnerable historical release. This repository candidate is its
+reproducibly vulnerable historical release. This repository is its
 hardened successor.
 
 The v0.4 packet preserves the v0.3 `chain.jsonl`, `artifacts/`, and
@@ -42,4 +42,5 @@ world truth, signing time, Keychain custody, operator ownership, verifier/host
 benevolence, registry freshness, or independent origin.
 
 Hardening source: local working commit in the operator's private
-workspace; the published lineage is `e0fca96` -> `8f5ba31f` -> `c06b163`.
+workspace; the published lineage is `e0fca96` -> `8f5ba31f` -> `c06b163` ->
+`939b1e7` -> `9655a65` -> `06a3982` (current).

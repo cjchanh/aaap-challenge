@@ -1,0 +1,15 @@
+{
+  "schema": "aaap-daybreak-ii-reproducer/1",
+  "case": "anchor-exponent-overflow",
+  "source_commit": "a8b9d15c6b80100eaf52be02abbc1b3322ac3234",
+  "anchors_commit": "9deae6c211843544d8d4d5143f0ee266e36caab2",
+  "input_token": "1e9999",
+  "runtime_value_nonfinite": true,
+  "exit_code": 0,
+  "verdict": "PASS",
+  "engines": [
+    "cryptography",
+    "openssl"
+  ],
+  "reproduced": true
+}

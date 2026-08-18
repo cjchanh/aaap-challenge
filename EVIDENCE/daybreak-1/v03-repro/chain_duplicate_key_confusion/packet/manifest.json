@@ -1,0 +1,24 @@
+{
+  "schema": "aaap-manifest/1",
+  "files": {
+    "PACKET.md": "51f8dbd82c603fda007a75954d0be2167598cfe163bbf1e8a142757daf66efc1",
+    "ENVELOPE.md": "b945567a28537d7033b0fa6824606a830ff54a56f6e6e381661f7aad446a06f2",
+    "report.md": "cfe13ff8c02c7cdd35cf64b85a44c4905ef406325dd05c62cd4ed301fa0dd64c",
+    "replay.json": "d845de0705bddf9d647ff1477cdb70ab57c7e595eaacf18b7c6e69257294d1e0",
+    "verify_packet.py": "a6843232157ec0c8a01e44ef969d5a9e44d4f048692b0e82113dcdb47ed19a91"
+  },
+  "key_model": "persistent-identity",
+  "operator_id": "cds/aaap-id-2f28c662cb4b30c1",
+  "pubkey": "e7fb4aad8b0e0246eb6569f49d301ad88a0b54333e3de8bb57e02e118fd3716c",
+  "signature": "48fbdd3d45c2aff2789c02faa1add7731eaaf2b615793516cc45f2422a917a9e81f6f9131d2647740e661f160ebcf8314b66ba6c61f717b14ff20796e477cd0b",
+  "live": {
+    "ledger": "artifacts/live/ledger.jsonl",
+    "sigs": "artifacts/live/ledger.sig.jsonl",
+    "entries": 6,
+    "head": "d26cd173ea564b986144f50d61deac5abed004256c764f97f1f0584e7ebd53c3",
+    "key_model": "capture-time-signed",
+    "verified_at_build": [
+      "live chain intact (6 entries, all signed)"
+    ]
+  }
+}

@@ -1,0 +1,112 @@
+{
+  "schema": "aaap-daybreak-ii-verdict/1",
+  "phase": "pre-fix",
+  "written_at_utc": "2026-08-17T23:49:27Z",
+  "verdict": "BROKEN",
+  "successor_patch_started": false,
+  "scope": {
+    "challenge_target": "a8b9d15c6b80100eaf52be02abbc1b3322ac3234",
+    "challenge_parent_preserved": "c06b1638ec2942e0d481a967391e88d6532837dc",
+    "anchors_target": "9deae6c211843544d8d4d5143f0ee266e36caab2",
+    "challenge_parent_relationship_verified": true,
+    "challenge_target_tree": "b82c37def04971a0826dcaa2c1a1c018e7a4a1cf",
+    "challenge_parent_tree": "0b77403f04d47a4ebaeeebbb9a5c249b2fcf4f68",
+    "anchors_tree": "f7758dfefc17ee49e7bee1208134586a5975c771",
+    "target_diff_from_parent": {
+      "commit_count": 1,
+      "files": [
+        "DAYBREAK_CREDIT.md",
+        "README.md",
+        "security/README.md"
+      ],
+      "verifier_changed": false
+    }
+  },
+  "evidence_integrity": {
+    "pristine_clones_clean": true,
+    "verifier_sha256": "b7177c7607f3af7ff5de4453089045e27213943510d3d2bff10377f47c912641",
+    "signed_verifier_sha256": "b7177c7607f3af7ff5de4453089045e27213943510d3d2bff10377f47c912641",
+    "challenge_anchor_sha256": "5089761115f55649c16a7d68ae97e6636ab880a6fb1589e7d1ba392776eb28e1",
+    "mirror_anchor_sha256": "5089761115f55649c16a7d68ae97e6636ab880a6fb1589e7d1ba392776eb28e1"
+  },
+  "findings": [
+    {
+      "id": "DB2-001",
+      "severity": "HIGH",
+      "title": "Unsealed packet modules execute before root validation",
+      "stated_guarantee_violated": "Unsealed packet-root entries are rejected and a break includes an unsafe filesystem side effect.",
+      "reproduced": true,
+      "stable_directory_reproducer": {
+        "verifier_hash_unchanged": true,
+        "packet_directory_remained_stable": true,
+        "outside_packet_side_effect": true,
+        "process_exit": 1,
+        "final_verdict": "FAIL",
+        "evidence": "reproducers/static-import-side-effect-case/result.json",
+        "evidence_sha256": "8f6f31534cc96feb422db062fb5878223bbd372754eadfb80e59d52f69214944"
+      },
+      "anchored_pass_impact": {
+        "mutation": "manifest.key_model persistent-identity -> ephemeral-integrity",
+        "unsealed_payload": "self-removing cryptography package beside verify_packet.py",
+        "process_exit": 0,
+        "final_verdict": "PASS",
+        "reported_engines": [
+          "cryptography"
+        ],
+        "real_engine_control_exit": 1,
+        "real_engine_control_verdict": "FAIL",
+        "evidence": "reproducers/import-shadow-case/result.json",
+        "evidence_sha256": "d911913210134b9fbfb550ebc7e489c8ad1724fd2b2fd551204b38d6a3373709"
+      },
+      "why_not_a_documented_boundary": "The stable reproducer uses the published verifier unchanged and a non-mutating packet directory; attacker code executes before the promised unsealed-entry rejection. The self-removing PASS variant demonstrates impact but is not required for the unsafe-side-effect finding."
+    },
+    {
+      "id": "DB2-002",
+      "severity": "MEDIUM",
+      "title": "Exponent overflow bypasses non-finite JSON rejection",
+      "stated_guarantee_violated": "The strict JSON parser claims to reject non-finite numbers.",
+      "reproduced": true,
+      "input": "Two distinct byte-identical anchor registries with custody_stage: 1e9999",
+      "runtime_value": "positive infinity",
+      "process_exit": 0,
+      "final_verdict": "PASS",
+      "reported_engines": [
+        "cryptography",
+        "openssl"
+      ],
+      "security_scope": "The reproduced value is allowed metadata, not a head, key, revocation, or validity decision field; this is a parser-contract and cross-engine differential, not an anchor-selection bypass.",
+      "evidence": "reproducers/overflow-anchor-case/result.json",
+      "evidence_sha256": "4b162fa7de7114e371d0e85368b17eb68ac493fa8835b5c4158636f41003254c"
+    }
+  ],
+  "hostile_suite": {
+    "case_count": 32,
+    "unexpected_outcomes": [],
+    "results": "reproducers/hostile-suite-before-v3/RESULTS.json",
+    "results_sha256": "30a7551213009afd5cd25e5bc245b2b70b013603b598eaf37c32d36a7fee48d9",
+    "confirmed_defenses": [
+      "artifact mutation",
+      "chain truncation and path traversal",
+      "manifest policy and live-policy mutation",
+      "duplicate keys, literal NaN, invalid UTF-8, and deep malformed JSON",
+      "derived-file symlink, artifact symlink, hardlink, FIFO, and root extras",
+      "verify.json symlink and hardlink write-through",
+      "archive traversal payload without extraction",
+      "anchor disagreement, substitution by same inode, revocation, and validity window",
+      "crypto-engine disagreement and zero-engine failure"
+    ]
+  },
+  "excluded_documented_boundaries": [
+    "A lying sole OpenSSL executable can validate forged signatures because verifier/host/crypto-engine benevolence is explicitly outside the claim.",
+    "Eight MiB of JSON whitespace verifies because JSON whitespace is unsealed and availability has no promised bound.",
+    "Concurrent packet mutation, registry freshness and rollback, and hostile-host TOCTOU are explicitly documented external boundaries.",
+    "An escaped unpaired surrogate in unused anchor metadata was accepted; retained as a parser-hardening gap, not counted as an exploit because scalar-value rejection is not an explicit guarantee and anchor selection was unchanged."
+  ],
+  "exact_commands": [
+    "python3 <SCRUBBED-TMP-PATH>",
+    "python3 <SCRUBBED-TMP-PATH>",
+    "python3 <SCRUBBED-TMP-PATH>",
+    "python3 <SCRUBBED-TMP-PATH>"
+  ],
+  "fix_required": true
+}

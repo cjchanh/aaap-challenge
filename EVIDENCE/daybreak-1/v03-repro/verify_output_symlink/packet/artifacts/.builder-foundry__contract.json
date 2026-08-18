@@ -1,0 +1,46 @@
+{
+  "campaign_id": "mission-20260817",
+  "created_at": "2026-08-17T20:03:23Z",
+  "immutable_rules": [
+    "Do not reduce quotas or weaken gates.",
+    "Features and claims begin failing or unverified.",
+    "Reviewers may not approve their own implementation.",
+    "passes:true requires a command that exited 0 with hashed evidence.",
+    "PRODUCT_VERDICT requires a stranger/primary-path command.",
+    "Critical and high defects block closure.",
+    "Evidence must exist and match its recorded hash.",
+    "Remote mutation and destructive actions require explicit operator authorization.",
+    "The shipped artifact must pass its clean smoke path."
+  ],
+  "profile": "sprint",
+  "profile_contract": {
+    "description": "Short campaign: executable command-backed features, halt list, clean zip. No marathon quota floor.",
+    "max_sessions": 5,
+    "min_evidence_artifacts": 0,
+    "min_features": 0,
+    "min_holdout_audits": 0,
+    "min_hypotheses": 0,
+    "min_iterations": 0,
+    "min_lane_reports": 0,
+    "min_local_commits": 0,
+    "min_redteam_loops": 0,
+    "min_resolved_hypotheses": 0,
+    "min_sessions": 3,
+    "min_user_visible_iterations": 0,
+    "min_visual_artifacts": 0,
+    "name": "sprint",
+    "require_all_features_pass": true,
+    "require_clean_artifact_smoke": true,
+    "require_performance_verdict": false,
+    "require_release_artifact": true,
+    "require_security_verdict": false,
+    "require_visual_evidence": false,
+    "required_lanes": [],
+    "required_waves": [
+      "baseline",
+      "implementation",
+      "verification"
+    ]
+  },
+  "schema_version": "1.0.0"
+}

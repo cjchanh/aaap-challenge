@@ -1,0 +1,8 @@
+{
+  "schema": "deponent-attestation/v1",
+  "operator_id": "cds/aaap-id-2f28c662cb4b30c1",
+  "chain_head": "14d14281170d89f6f8b918daf6541f81e7e13549dd4c66f5b085304ff6a61724",
+  "pubkey": "e7fb4aad8b0e0246eb6569f49d301ad88a0b54333e3de8bb57e02e118fd3716c",
+  "signature": "9d1e3f8bef3d7055e77a2149d8638dddaaf1e740138fc0855f808df974f9cc21b0577950cbd4f5bc89bd221098ac857f121c18ab87014b76e3d2b07a31776508",
+  "custody": "hardware-hsm"
+}

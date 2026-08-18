@@ -1,0 +1,79 @@
+{
+  "schema": "aaap-daybreak-ii-hardening/1",
+  "written_at_utc": "2026-08-17T23:58:13Z",
+  "verdict": "HARDENED",
+  "pre_fix_verdict": {
+    "path": "DAYBREAK_II_VERDICT.json",
+    "verdict": "BROKEN",
+    "sha256": "37ffcc09652b3d6c5a309ec45541e529ea8b08c60af73d8469af72de9e4e26d0",
+    "written_before_successor_changes": true
+  },
+  "successor": {
+    "path": "successor/aaap-challenge",
+    "parent": "a8b9d15c6b80100eaf52be02abbc1b3322ac3234",
+    "commit": "7363113971250411f63e3ee5981fb35a39e3f5ca",
+    "tree": "9b37b8beb63c80be06fe28bb3b8336a991390bc7",
+    "clean_worktree": true,
+    "pushed": false,
+    "published": false
+  },
+  "implemented": [
+    {
+      "finding": "DB2-001",
+      "change": "Remove the direct-script packet directory and empty cwd entries from sys.path before any non-built-in import.",
+      "result": "Stable and self-removing packet-local cryptography packages remain unexecuted and are rejected by root inventory."
+    },
+    {
+      "finding": "DB2-002",
+      "change": "Parse JSON floats through a finite-value guard.",
+      "result": "Exponent overflow such as 1e9999 fails before anchor policy evaluation."
+    }
+  ],
+  "files": {
+    "packet/verify_packet.py": "a5382b2973d0f2adcc12d0cf1fb1cdec91d22038bad3f06abb7e14db7ff61099",
+    "tests/test_verify_packet_hardening.py": "7c28f9dea412c7bd09aa50d9fe488c723561df540aab0e7c4555257e8143b72f"
+  },
+  "verification": {
+    "unit_regressions": {
+      "command": "python3 -B -m unittest discover -s tests -v",
+      "passed": 4,
+      "failed": 0
+    },
+    "lint": {
+      "command": "ruff check packet/verify_packet.py tests/test_verify_packet_hardening.py",
+      "result": "PASS"
+    },
+    "post_fix_fixture": {
+      "path": "reproducers/postfix-fixture-v2/FIXTURE.json",
+      "sha256": "2caca5cf1493c7b7f1d4328327aafb0dbb95335451317935a8f06f7fff4fe10a",
+      "purpose": "deterministic test-only identity; never production or publishable",
+      "baseline_verdict": "PASS",
+      "engines": [
+        "cryptography",
+        "openssl"
+      ]
+    },
+    "hostile_suite": {
+      "path": "reproducers/hostile-suite-after-v3/RESULTS.json",
+      "sha256": "e3e2a2213599751e61511f0941936c642252fedbb35a13df5a7736f196ee1e22",
+      "cases": 33,
+      "unexpected": [],
+      "source_violations": []
+    }
+  },
+  "evidence_preservation": {
+    "challenge_parent": {
+      "commit": "c06b1638ec2942e0d481a967391e88d6532837dc",
+      "clean": true
+    },
+    "challenge_target": {
+      "commit": "a8b9d15c6b80100eaf52be02abbc1b3322ac3234",
+      "clean": true
+    },
+    "anchors": {
+      "commit": "9deae6c211843544d8d4d5143f0ee266e36caab2",
+      "clean": true
+    }
+  },
+  "boundary": "The public production-signed packet and repositories were not changed. Because manifest v2 signs verify_packet.py, production activation requires an authorized packet reissue/sign and later publication. The local source fix is implemented and tested; public commit a8b9d15 remains vulnerable until that separate outward action occurs."
+}

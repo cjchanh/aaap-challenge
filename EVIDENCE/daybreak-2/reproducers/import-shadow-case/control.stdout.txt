@@ -1,0 +1,2 @@
+FAIL: manifest signature invalid (signature invalid (engine disagreement counts as invalid)) [engines: cryptography, openssl]
+verify.json written: <SCRUBBED-TMP-PATH>

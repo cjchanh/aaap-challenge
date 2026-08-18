@@ -1,0 +1,428 @@
+{
+  "schema": "aaap-verify/1",
+  "verdict": "PASS",
+  "reason": "chain intact, artifacts complete and intact, derived layer sealed by manifest, attestation valid",
+  "engines": [
+    "cryptography",
+    "openssl"
+  ],
+  "checks": [
+    {
+      "check": "packet-structure",
+      "passed": true,
+      "detail": "chain.jsonl, attestation.json, artifacts/ present"
+    },
+    {
+      "check": "manifest-present",
+      "passed": true,
+      "detail": "manifest.json seals the derived layer"
+    },
+    {
+      "check": "chain-nonempty",
+      "passed": true,
+      "detail": "22 envelopes"
+    },
+    {
+      "check": "sig-engine-available",
+      "passed": true,
+      "detail": "at least one Ed25519 engine (cryptography lib or openssl CLI)"
+    },
+    {
+      "check": "envelope-000-hash",
+      "passed": true,
+      "detail": "receipt_hash recompute EVP-7462480238f7"
+    },
+    {
+      "check": "envelope-000-link",
+      "passed": true,
+      "detail": "chain link to prior envelope"
+    },
+    {
+      "check": "envelope-000-artifact",
+      "passed": true,
+      "detail": "artifact hash artifacts/.builder-foundry__contract.json"
+    },
+    {
+      "check": "envelope-001-hash",
+      "passed": true,
+      "detail": "receipt_hash recompute EVP-71cfd86647e3"
+    },
+    {
+      "check": "envelope-001-link",
+      "passed": true,
+      "detail": "chain link to prior envelope"
+    },
+    {
+      "check": "envelope-001-artifact",
+      "passed": true,
+      "detail": "artifact hash artifacts/.builder-foundry__contract.lock.json"
+    },
+    {
+      "check": "envelope-002-hash",
+      "passed": true,
+      "detail": "receipt_hash recompute EVP-1ed4d35ca319"
+    },
+    {
+      "check": "envelope-002-link",
+      "passed": true,
+      "detail": "chain link to prior envelope"
+    },
+    {
+      "check": "envelope-002-artifact",
+      "passed": true,
+      "detail": "artifact hash artifacts/.builder-foundry__campaign.json"
+    },
+    {
+      "check": "envelope-003-hash",
+      "passed": true,
+      "detail": "receipt_hash recompute EVP-9fcf7ba1dfca"
+    },
+    {
+      "check": "envelope-003-link",
+      "passed": true,
+      "detail": "chain link to prior envelope"
+    },
+    {
+      "check": "envelope-003-artifact",
+      "passed": true,
+      "detail": "artifact hash artifacts/.builder-foundry__baseline.json"
+    },
+    {
+      "check": "envelope-004-hash",
+      "passed": true,
+      "detail": "receipt_hash recompute EVP-2e11283a3da4"
+    },
+    {
+      "check": "envelope-004-link",
+      "passed": true,
+      "detail": "chain link to prior envelope"
+    },
+    {
+      "check": "envelope-004-artifact",
+      "passed": true,
+      "detail": "artifact hash artifacts/.builder-foundry__current_state.json"
+    },
+    {
+      "check": "envelope-005-hash",
+      "passed": true,
+      "detail": "receipt_hash recompute EVP-370ab311a907"
+    },
+    {
+      "check": "envelope-005-link",
+      "passed": true,
+      "detail": "chain link to prior envelope"
+    },
+    {
+      "check": "envelope-005-artifact",
+      "passed": true,
+      "detail": "artifact hash artifacts/.builder-foundry__MISSION.md"
+    },
+    {
+      "check": "envelope-006-hash",
+      "passed": true,
+      "detail": "receipt_hash recompute EVP-2801a12eb821"
+    },
+    {
+      "check": "envelope-006-link",
+      "passed": true,
+      "detail": "chain link to prior envelope"
+    },
+    {
+      "check": "envelope-006-artifact",
+      "passed": true,
+      "detail": "artifact hash artifacts/.builder-foundry__run_receipt.json"
+    },
+    {
+      "check": "envelope-007-hash",
+      "passed": true,
+      "detail": "receipt_hash recompute EVP-df10e657a7df"
+    },
+    {
+      "check": "envelope-007-link",
+      "passed": true,
+      "detail": "chain link to prior envelope"
+    },
+    {
+      "check": "envelope-007-artifact",
+      "passed": true,
+      "detail": "artifact hash artifacts/.builder-foundry__feature_ledger.json"
+    },
+    {
+      "check": "envelope-008-hash",
+      "passed": true,
+      "detail": "receipt_hash recompute EVP-7dda95878eb9"
+    },
+    {
+      "check": "envelope-008-link",
+      "passed": true,
+      "detail": "chain link to prior envelope"
+    },
+    {
+      "check": "envelope-008-artifact",
+      "passed": true,
+      "detail": "artifact hash artifacts/.builder-foundry__claim_ledger.jsonl"
+    },
+    {
+      "check": "envelope-009-hash",
+      "passed": true,
+      "detail": "receipt_hash recompute EVP-950cf313c4bf"
+    },
+    {
+      "check": "envelope-009-link",
+      "passed": true,
+      "detail": "chain link to prior envelope"
+    },
+    {
+      "check": "envelope-009-artifact",
+      "passed": true,
+      "detail": "artifact hash artifacts/.builder-foundry__hypothesis_ledger.jsonl"
+    },
+    {
+      "check": "envelope-010-hash",
+      "passed": true,
+      "detail": "receipt_hash recompute EVP-54e5e34afb69"
+    },
+    {
+      "check": "envelope-010-link",
+      "passed": true,
+      "detail": "chain link to prior envelope"
+    },
+    {
+      "check": "envelope-010-artifact",
+      "passed": true,
+      "detail": "artifact hash artifacts/.builder-foundry__evidence_manifest.jsonl"
+    },
+    {
+      "check": "envelope-011-hash",
+      "passed": true,
+      "detail": "receipt_hash recompute EVP-c3e90a7d7c01"
+    },
+    {
+      "check": "envelope-011-link",
+      "passed": true,
+      "detail": "chain link to prior envelope"
+    },
+    {
+      "check": "envelope-011-artifact",
+      "passed": true,
+      "detail": "artifact hash artifacts/.builder-foundry__agent_brief.md"
+    },
+    {
+      "check": "envelope-012-hash",
+      "passed": true,
+      "detail": "receipt_hash recompute EVP-6538ce281d70"
+    },
+    {
+      "check": "envelope-012-link",
+      "passed": true,
+      "detail": "chain link to prior envelope"
+    },
+    {
+      "check": "envelope-012-artifact",
+      "passed": true,
+      "detail": "artifact hash artifacts/.builder-foundry__run_receipt.json"
+    },
+    {
+      "check": "envelope-013-hash",
+      "passed": true,
+      "detail": "receipt_hash recompute EVP-0d9b085ead7a"
+    },
+    {
+      "check": "envelope-013-link",
+      "passed": true,
+      "detail": "chain link to prior envelope"
+    },
+    {
+      "check": "envelope-013-artifact",
+      "passed": true,
+      "detail": "artifact hash artifacts/.builder-foundry__evidence__guard-report-snapshot.json"
+    },
+    {
+      "check": "envelope-014-hash",
+      "passed": true,
+      "detail": "receipt_hash recompute EVP-5a05412f4f39"
+    },
+    {
+      "check": "envelope-014-link",
+      "passed": true,
+      "detail": "chain link to prior envelope"
+    },
+    {
+      "check": "envelope-014-artifact",
+      "passed": true,
+      "detail": "artifact hash artifacts/ledger.jsonl"
+    },
+    {
+      "check": "envelope-015-hash",
+      "passed": true,
+      "detail": "receipt_hash recompute EVP-0cb26b74360e"
+    },
+    {
+      "check": "envelope-015-link",
+      "passed": true,
+      "detail": "chain link to prior envelope"
+    },
+    {
+      "check": "envelope-015-artifact",
+      "passed": true,
+      "detail": "artifact hash artifacts/ledger.sig.jsonl"
+    },
+    {
+      "check": "envelope-016-hash",
+      "passed": true,
+      "detail": "receipt_hash recompute EVP-45019fa04b2b"
+    },
+    {
+      "check": "envelope-016-link",
+      "passed": true,
+      "detail": "chain link to prior envelope"
+    },
+    {
+      "check": "envelope-016-artifact",
+      "passed": true,
+      "detail": "artifact hash artifacts/ledger-prod.jsonl"
+    },
+    {
+      "check": "envelope-017-hash",
+      "passed": true,
+      "detail": "receipt_hash recompute EVP-07de8d6b74a7"
+    },
+    {
+      "check": "envelope-017-link",
+      "passed": true,
+      "detail": "chain link to prior envelope"
+    },
+    {
+      "check": "envelope-017-artifact",
+      "passed": true,
+      "detail": "artifact hash artifacts/ledger-prod.sig.jsonl"
+    },
+    {
+      "check": "envelope-018-hash",
+      "passed": true,
+      "detail": "receipt_hash recompute EVP-6a116552a54a"
+    },
+    {
+      "check": "envelope-018-link",
+      "passed": true,
+      "detail": "chain link to prior envelope"
+    },
+    {
+      "check": "envelope-018-artifact",
+      "passed": true,
+      "detail": "artifact hash artifacts/.builder-foundry__test_runs.jsonl"
+    },
+    {
+      "check": "envelope-019-hash",
+      "passed": true,
+      "detail": "receipt_hash recompute EVP-3443e7100af2"
+    },
+    {
+      "check": "envelope-019-link",
+      "passed": true,
+      "detail": "chain link to prior envelope"
+    },
+    {
+      "check": "envelope-019-artifact",
+      "passed": true,
+      "detail": "artifact hash artifacts/.builder-foundry__blockers.json"
+    },
+    {
+      "check": "envelope-020-hash",
+      "passed": true,
+      "detail": "receipt_hash recompute EVP-5606e172c733"
+    },
+    {
+      "check": "envelope-020-link",
+      "passed": true,
+      "detail": "chain link to prior envelope"
+    },
+    {
+      "check": "envelope-020-artifact",
+      "passed": true,
+      "detail": "artifact hash artifacts/live/ledger.jsonl"
+    },
+    {
+      "check": "envelope-021-hash",
+      "passed": true,
+      "detail": "receipt_hash recompute EVP-aba2cf061bbd"
+    },
+    {
+      "check": "envelope-021-link",
+      "passed": true,
+      "detail": "chain link to prior envelope"
+    },
+    {
+      "check": "envelope-021-artifact",
+      "passed": true,
+      "detail": "artifact hash artifacts/live/ledger.sig.jsonl"
+    },
+    {
+      "check": "artifacts-complete",
+      "passed": true,
+      "detail": "artifacts/ holds exactly the referenced set (21 referenced, 21 present)"
+    },
+    {
+      "check": "attestation-head-binding",
+      "passed": true,
+      "detail": "attestation bound to recomputed chain head"
+    },
+    {
+      "check": "anchor-chain-head",
+      "passed": true,
+      "detail": "recomputed head matches independently published anchor"
+    },
+    {
+      "check": "anchor-pubkey",
+      "passed": true,
+      "detail": "signing key matches independently published anchor"
+    },
+    {
+      "check": "attestation-signature",
+      "passed": true,
+      "detail": "Ed25519 ok (cryptography, openssl) for operator_id=cds/aaap-id-2f28c662cb4b30c1"
+    },
+    {
+      "check": "manifest-files-complete",
+      "passed": true,
+      "detail": "manifest covers ['PACKET.md', 'ENVELOPE.md', 'report.md', 'replay.json', 'verify_packet.py']"
+    },
+    {
+      "check": "manifest-PACKET.md",
+      "passed": true,
+      "detail": "derived file hash matches manifest"
+    },
+    {
+      "check": "manifest-ENVELOPE.md",
+      "passed": true,
+      "detail": "derived file hash matches manifest"
+    },
+    {
+      "check": "manifest-report.md",
+      "passed": true,
+      "detail": "derived file hash matches manifest"
+    },
+    {
+      "check": "manifest-replay.json",
+      "passed": true,
+      "detail": "derived file hash matches manifest"
+    },
+    {
+      "check": "manifest-verify_packet.py",
+      "passed": true,
+      "detail": "derived file hash matches manifest"
+    },
+    {
+      "check": "manifest-signature",
+      "passed": true,
+      "detail": "Ed25519 ok over derived-file digest map (cryptography, openssl)"
+    },
+    {
+      "check": "identity-single-key",
+      "passed": true,
+      "detail": "packet seal and manifest share one identity key"
+    }
+  ],
+  "chain_head": "14d14281170d89f6f8b918daf6541f81e7e13549dd4c66f5b085304ff6a61724",
+  "envelope_count": 22
+}

@@ -1,0 +1,98 @@
+{
+  "schema": "aaap-glm-pass/1",
+  "attacker": "GLM 5.3 (commissioned, same operator)",
+  "target": "aaap-challenge@9655a65",
+  "results": [
+    {
+      "id": "G01",
+      "expect": "caught",
+      "exit": 1,
+      "caught": true,
+      "first_line": "FAIL: anchor registry rejected: anchor registry is not a plain regular file: /var/folders/wk/lds7pm9x7fv6y10hl_xfjwb80000gn/T/tmppo32s772/G0",
+      "describe": "same registry file twice via symlink alias (vacuous agreement attempt)",
+      "verdict": "caught as expected"
+    },
+    {
+      "id": "G02",
+      "expect": "documented-pass",
+      "exit": 0,
+      "caught": false,
+      "first_line": "anchor identity active: aaap-id-2f28c662cb4b30c1",
+      "describe": "two byte-identical COPIES of one registry (agreement is vacuous \u2014 model limit: agreement is necessary, not proof of independent acquisition)",
+      "verdict": "documented model limit confirmed"
+    },
+    {
+      "id": "G03",
+      "expect": "caught",
+      "exit": 1,
+      "caught": true,
+      "first_line": "FAIL: anchor registry rejected: anchor registries disagree byte-for-byte; trust neither",
+      "describe": "disagreeing registries (one row differs)",
+      "verdict": "caught as expected"
+    },
+    {
+      "id": "G04",
+      "expect": "caught",
+      "exit": 1,
+      "caught": true,
+      "first_line": "FAIL: anchor registry rejected: anchor registry is not a plain regular file: /var/folders/wk/lds7pm9x7fv6y10hl_xfjwb80000gn/T/tmppo32s772/G0",
+      "describe": "symlinked registry file (not a plain regular file)",
+      "verdict": "caught as expected"
+    },
+    {
+      "id": "G05",
+      "expect": "caught",
+      "exit": 1,
+      "caught": true,
+      "first_line": "FAIL: anchor registry rejected: packet identity is revoked: aaap-id-ef9eef6cb68a8850",
+      "describe": "packet anchored to a REVOKED identity",
+      "verdict": "caught as expected"
+    },
+    {
+      "id": "G06",
+      "expect": "caught",
+      "exit": 1,
+      "caught": true,
+      "first_line": "anchor identity active: aaap-id-attacker",
+      "describe": "hostile registry re-anchors the REAL packet name to an attacker identity (trust-the-registry-wholesale attempt; signature must fail)",
+      "verdict": "caught as expected"
+    },
+    {
+      "id": "G07",
+      "expect": "caught",
+      "exit": 1,
+      "caught": true,
+      "first_line": "FAIL: anchor registry rejected: packet anchor 1 has invalid or duplicate name",
+      "describe": "duplicate packet names in registry",
+      "verdict": "caught as expected"
+    },
+    {
+      "id": "G08",
+      "expect": "caught",
+      "exit": 1,
+      "caught": true,
+      "first_line": "FAIL: anchor registry rejected: anchor registry unparseable: Unexpected UTF-8 BOM (decode using utf-8-sig): line 1 column 1 (char 0)",
+      "describe": "UTF-8 BOM prefixed registry",
+      "verdict": "caught as expected"
+    },
+    {
+      "id": "G09",
+      "expect": "caught",
+      "exit": 1,
+      "caught": true,
+      "first_line": "FAIL: envelope 1 chain_index does not match its position",
+      "describe": "chain_index as float 1.0 (type confusion at position 1)",
+      "verdict": "caught as expected"
+    },
+    {
+      "id": "G10",
+      "expect": "caught",
+      "exit": 1,
+      "caught": true,
+      "first_line": "FAIL: anchor registry rejected: packet anchor not found: demo/packet",
+      "describe": "unicode homoglyph packet-name in registry (unknown name)",
+      "verdict": "caught as expected"
+    }
+  ],
+  "findings": []
+}

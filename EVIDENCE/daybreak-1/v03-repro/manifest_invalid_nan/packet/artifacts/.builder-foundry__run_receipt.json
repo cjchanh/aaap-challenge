@@ -1,0 +1,108 @@
+{
+  "anti_fabrication": "engines do the creative work; run only re-runs the guard between steps and never writes ledgers to satisfy it",
+  "elapsed_seconds": 30.4,
+  "engine": "luna",
+  "engine_available": true,
+  "engine_calls": 0,
+  "engine_model": "gpt-5.6-luna",
+  "escalations": 0,
+  "executed": true,
+  "execution_policy": "standard",
+  "exit_code": 0,
+  "final_state": "handed-off",
+  "handoff": {
+    "failing_features": [],
+    "guard": {
+      "blocker_count": 8,
+      "passed": false
+    },
+    "head": "9a11489",
+    "mission_excerpt": "# Mission\n\n## Objective\n\nDescribe the product outcome, not merely the implementation method.\n\n## Target users and jobs\n\n- Primary user:\n- Primary job:\n- Critical workflow:\n\n## Deliverables\n\n- Working product:\n- Release artifact:\n- Documentation:\n- Evidence:\n\n## Acceptance outcom\u2026",
+    "recommended": {
+      "action": "Address highest-severity failing check 'verdict:RELEASE_VERDICT' (actual=FAIL expected=PASS). Work as role 'verdict:RELEASE_VERDICT'. Produce command-backed evidence, then re-run: foundry-campaign guard --repo <repo> --run-commands (or python3 scripts/foundry_guard.py --repo <repo> --run-commands).",
+      "next_glob": "(integrator / unleased)",
+      "rationale": "highest-severity failing guard: verdict:RELEASE_VERDICT",
+      "role": "verdict:RELEASE_VERDICT"
+    },
+    "repo": "/private/var/folders/wk/lds7pm9x7fv6y10hl_xfjwb80000gn/T/opencode/aaap-target",
+    "state": "in-progress",
+    "tool": "foundry-next/1",
+    "top_failing_checks": [
+      {
+        "blocker": true,
+        "detail": "actual=FAIL expected=PASS",
+        "id": "verdict:RELEASE_VERDICT"
+      },
+      {
+        "blocker": true,
+        "detail": "actual=FAIL expected=PASS",
+        "id": "verdict:EVIDENCE_VERDICT"
+      },
+      {
+        "blocker": true,
+        "detail": "actual=FAIL expected=PASS",
+        "id": "verdict:TECHNICAL_VERDICT"
+      },
+      {
+        "blocker": true,
+        "detail": "missing release/release.json",
+        "id": "release-record"
+      },
+      {
+        "blocker": true,
+        "detail": "exit=2 expect=0",
+        "id": "stranger-check"
+      }
+    ]
+  },
+  "healer": "terra",
+  "healer_available": true,
+  "healer_model": "gpt-5.6-terra",
+  "ladder": [
+    "luna",
+    "terra"
+  ],
+  "mode": "engine",
+  "provider_run_id": "f231a0475589d52b40a46ee17f610ae6900eaaced320a9f407e4a91b4dc685be",
+  "provider_telemetry": {
+    "path": "/private/var/folders/wk/lds7pm9x7fv6y10hl_xfjwb80000gn/T/opencode/aaap-target/.builder-foundry/provider-evidence/f231a0475589d52b40a46ee17f610ae6900eaaced320a9f407e4a91b4dc685be/luna/PROVIDER_TELEMETRY.json",
+    "sha256": "5c23cdd68cba4fb293405874413124b32648df2d06fb04e5a633a1cfe9943782"
+  },
+  "repo": "/private/var/folders/wk/lds7pm9x7fv6y10hl_xfjwb80000gn/T/opencode/aaap-target",
+  "requested_model": "gpt-5.6-luna",
+  "requested_provider": "openai",
+  "steps": [
+    {
+      "blocker_count": 8,
+      "id": "guard-1",
+      "passed": false,
+      "planned": false
+    },
+    {
+      "canary_exit_code": 124,
+      "canary_receipt": {
+        "path": "/private/var/folders/wk/lds7pm9x7fv6y10hl_xfjwb80000gn/T/opencode/aaap-target/.builder-foundry/provider-evidence/f231a0475589d52b40a46ee17f610ae6900eaaced320a9f407e4a91b4dc685be/luna/provider-canary-receipt.json",
+        "sha256": "9429c98c1351dd8637b98dec3eba20c1db419d416d795e9df0c626463dc6b254"
+      },
+      "canary_timed_out": true,
+      "escalation_allowed": false,
+      "id": "capability-luna",
+      "observed_model": "UNKNOWN",
+      "observed_provider": "UNKNOWN",
+      "planned": false,
+      "reason": "provider-unknown",
+      "requested_model": "gpt-5.6-luna",
+      "requested_provider": "openai",
+      "success_allowed": false,
+      "tool_calling": false
+    },
+    {
+      "blocker_count": 8,
+      "id": "guard-final",
+      "passed": false,
+      "planned": false
+    }
+  ],
+  "stop_reason": "provider-unknown",
+  "tool": "foundry-run/1"
+}

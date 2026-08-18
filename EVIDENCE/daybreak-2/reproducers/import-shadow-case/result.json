@@ -1,0 +1,29 @@
+{
+  "schema": "aaap-daybreak-ii-reproducer/1",
+  "case": "pre-validation-import-shadow",
+  "source_commit": "a8b9d15c6b80100eaf52be02abbc1b3322ac3234",
+  "parent_commit": "c06b1638ec2942e0d481a967391e88d6532837dc",
+  "verifier_sha256": "b7177c7607f3af7ff5de4453089045e27213943510d3d2bff10377f47c912641",
+  "signed_verifier_sha256": "b7177c7607f3af7ff5de4453089045e27213943510d3d2bff10377f47c912641",
+  "mutation": {
+    "manifest.key_model": [
+      "persistent-identity",
+      "ephemeral-integrity"
+    ]
+  },
+  "attack": {
+    "exit_code": 0,
+    "verdict": "PASS",
+    "engines": [
+      "cryptography"
+    ],
+    "import_side_effect": true,
+    "unsealed_package_self_removed": true
+  },
+  "real_engine_control": {
+    "exit_code": 1,
+    "verdict": "FAIL",
+    "reason": "manifest signature invalid (signature invalid (engine disagreement counts as invalid))"
+  },
+  "reproduced": true
+}

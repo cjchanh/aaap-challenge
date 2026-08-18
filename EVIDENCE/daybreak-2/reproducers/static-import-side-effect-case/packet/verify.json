@@ -1,0 +1,18 @@
+{
+  "schema": "aaap-verify/1",
+  "verdict": "FAIL",
+  "reason": "packet root contains an unsealed entry: cryptography",
+  "engines": [],
+  "checks": [
+    {
+      "check": "packet-structure",
+      "passed": true,
+      "detail": "plain chain.jsonl, attestation.json, artifacts/ present"
+    },
+    {
+      "check": "manifest-present",
+      "passed": true,
+      "detail": "manifest.json seals the derived layer"
+    }
+  ]
+}

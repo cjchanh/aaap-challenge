@@ -1,0 +1,1 @@
+/opt/homebrew/opt/python@3.14/bin/python3.14 <SCRUBBED-TMP-PATH> <SCRUBBED-TMP-PATH> --anchor-registry <SCRUBBED-TMP-PATH> --anchor-registry <SCRUBBED-TMP-PATH> --packet-name demo/packet

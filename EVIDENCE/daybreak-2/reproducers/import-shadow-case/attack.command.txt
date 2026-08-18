@@ -1,0 +1,1 @@
+PATH=<SCRUBBED-TMP-PATH> /opt/homebrew/opt/python@3.14/bin/python3.14 <SCRUBBED-TMP-PATH> <SCRUBBED-TMP-PATH> --expected-head 14d14281170d89f6f8b918daf6541f81e7e13549dd4c66f5b085304ff6a61724 --expected-pubkey e7fb4aad8b0e0246eb6569f49d301ad88a0b54333e3de8bb57e02e118fd3716c

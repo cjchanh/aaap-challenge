@@ -1,0 +1,3 @@
+anchor identity active: aaap-id-2f28c662cb4b30c1
+PASS: chain intact, artifacts complete and intact, derived layer sealed by manifest, attestation valid [engines: cryptography, openssl]
+verify.json written: <SCRUBBED-TMP-PATH>

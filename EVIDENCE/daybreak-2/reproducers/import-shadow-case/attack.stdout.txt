@@ -1,0 +1,2 @@
+PASS: chain intact, artifacts complete and intact, derived layer sealed by manifest, attestation valid [engines: cryptography]
+verify.json written: <SCRUBBED-TMP-PATH>

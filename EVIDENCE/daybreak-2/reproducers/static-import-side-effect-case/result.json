@@ -1,0 +1,13 @@
+{
+  "schema": "aaap-daybreak-ii-reproducer/1",
+  "case": "stable-pre-validation-import-side-effect",
+  "source_commit": "a8b9d15c6b80100eaf52be02abbc1b3322ac3234",
+  "verifier_sha256": "b7177c7607f3af7ff5de4453089045e27213943510d3d2bff10377f47c912641",
+  "signed_verifier_sha256": "b7177c7607f3af7ff5de4453089045e27213943510d3d2bff10377f47c912641",
+  "packet_directory_remained_stable": true,
+  "exit_code": 1,
+  "verdict": "FAIL",
+  "reason": "packet root contains an unsealed entry: cryptography",
+  "outside_packet_side_effect": true,
+  "reproduced": true
+}

@@ -1,0 +1,308 @@
+{
+  "blocker_count": 8,
+  "checks": [
+    {
+      "blocker": false,
+      "detail": "present and valid JSON",
+      "id": "file:campaign.json",
+      "passed": true
+    },
+    {
+      "blocker": false,
+      "detail": "present and valid JSON",
+      "id": "file:contract.json",
+      "passed": true
+    },
+    {
+      "blocker": false,
+      "detail": "present and valid JSON",
+      "id": "file:contract.lock.json",
+      "passed": true
+    },
+    {
+      "blocker": false,
+      "detail": "present and valid JSON",
+      "id": "file:current_state.json",
+      "passed": true
+    },
+    {
+      "blocker": false,
+      "detail": "present and valid JSON",
+      "id": "file:blockers.json",
+      "passed": true
+    },
+    {
+      "blocker": false,
+      "detail": "present and valid JSON",
+      "id": "file:feature_ledger.json",
+      "passed": true
+    },
+    {
+      "blocker": true,
+      "detail": "expected=0845b72c681127cc0040dfe7a252b3692380acac7c167c87ff5ed444d72b4b6e actual=0845b72c681127cc0040dfe7a252b3692380acac7c167c87ff5ed444d72b4b6e",
+      "id": "contract-lock",
+      "passed": true
+    },
+    {
+      "blocker": true,
+      "detail": "mission length=451",
+      "id": "mission",
+      "passed": true
+    },
+    {
+      "blocker": true,
+      "detail": "allowed_roots=['.']",
+      "id": "allowed-roots",
+      "passed": true
+    },
+    {
+      "blocker": true,
+      "detail": "0/3 sessions",
+      "id": "sessions",
+      "passed": false
+    },
+    {
+      "blocker": true,
+      "detail": "missing=['baseline', 'implementation', 'verification']",
+      "id": "waves",
+      "passed": false
+    },
+    {
+      "blocker": true,
+      "detail": "0 IDs",
+      "id": "features-unique",
+      "passed": true
+    },
+    {
+      "blocker": true,
+      "detail": "0/0",
+      "id": "features-count",
+      "passed": true
+    },
+    {
+      "blocker": true,
+      "detail": "all pass",
+      "id": "features-pass",
+      "passed": true
+    },
+    {
+      "blocker": true,
+      "detail": "all have verification",
+      "id": "features-verifiable",
+      "passed": true
+    },
+    {
+      "blocker": true,
+      "detail": "all passes are command-backed",
+      "id": "UNEXECUTED_PASS",
+      "passed": true
+    },
+    {
+      "blocker": false,
+      "detail": "valid JSONL",
+      "id": "hypotheses-jsonl",
+      "passed": true
+    },
+    {
+      "blocker": true,
+      "detail": "0/0",
+      "id": "hypotheses-count",
+      "passed": true
+    },
+    {
+      "blocker": true,
+      "detail": "0/0",
+      "id": "hypotheses-resolved",
+      "passed": true
+    },
+    {
+      "blocker": true,
+      "detail": "all valid",
+      "id": "iterations-valid",
+      "passed": true
+    },
+    {
+      "blocker": true,
+      "detail": "0/0",
+      "id": "iterations-count",
+      "passed": true
+    },
+    {
+      "blocker": true,
+      "detail": "0/0",
+      "id": "iterations-user-visible",
+      "passed": true
+    },
+    {
+      "blocker": true,
+      "detail": "all passed",
+      "id": "iterations-reviewed",
+      "passed": true
+    },
+    {
+      "blocker": true,
+      "detail": "all considered alternatives",
+      "id": "iterations-alternatives",
+      "passed": true
+    },
+    {
+      "blocker": true,
+      "detail": "reviewer distinct from implementer",
+      "id": "reviewer-isolation",
+      "passed": true
+    },
+    {
+      "blocker": true,
+      "detail": "no reviewer passes write",
+      "id": "reviewer-ledger-write",
+      "passed": true
+    },
+    {
+      "blocker": true,
+      "detail": "all valid",
+      "id": "lanes-valid",
+      "passed": true
+    },
+    {
+      "blocker": true,
+      "detail": "0/0",
+      "id": "lanes-count",
+      "passed": true
+    },
+    {
+      "blocker": true,
+      "detail": "required lane coverage present",
+      "id": "lanes-required",
+      "passed": true
+    },
+    {
+      "blocker": true,
+      "detail": "no declared self-approval",
+      "id": "lanes-independent",
+      "passed": true
+    },
+    {
+      "blocker": true,
+      "detail": "0/0",
+      "id": "redteam-loops",
+      "passed": true
+    },
+    {
+      "blocker": true,
+      "detail": "0/0",
+      "id": "holdout-audits",
+      "passed": true
+    },
+    {
+      "blocker": true,
+      "detail": "all pass",
+      "id": "redteam-pass",
+      "passed": true
+    },
+    {
+      "blocker": true,
+      "detail": "all pass",
+      "id": "holdout-pass",
+      "passed": true
+    },
+    {
+      "blocker": false,
+      "detail": "valid JSONL",
+      "id": "evidence-jsonl",
+      "passed": true
+    },
+    {
+      "blocker": true,
+      "detail": "0/0",
+      "id": "evidence-count",
+      "passed": true
+    },
+    {
+      "blocker": true,
+      "detail": "all hashes verify",
+      "id": "evidence-integrity",
+      "passed": true
+    },
+    {
+      "blocker": true,
+      "detail": "0 approved claims",
+      "id": "claims-approved",
+      "passed": true
+    },
+    {
+      "blocker": true,
+      "detail": "open critical/high=0",
+      "id": "blockers",
+      "passed": true
+    },
+    {
+      "blocker": true,
+      "detail": "0/0",
+      "id": "local-commits",
+      "passed": true
+    },
+    {
+      "blocker": true,
+      "detail": "clean",
+      "id": "git-diff-check",
+      "passed": true
+    },
+    {
+      "blocker": true,
+      "detail": "missing release/release.json",
+      "id": "release-record",
+      "passed": false
+    },
+    {
+      "blocker": true,
+      "detail": "exit=2 expect=0",
+      "id": "stranger-check",
+      "passed": false
+    },
+    {
+      "blocker": true,
+      "detail": "actual=FAIL expected=PASS",
+      "id": "verdict:TECHNICAL_VERDICT",
+      "passed": false
+    },
+    {
+      "blocker": true,
+      "detail": "actual=INCONCLUSIVE expected=AUTOMATED_WORTH_TESTING; stranger_check required for PRODUCT_VERDICT",
+      "id": "verdict:PRODUCT_VERDICT",
+      "passed": false
+    },
+    {
+      "blocker": true,
+      "detail": "actual=FAIL expected=PASS",
+      "id": "verdict:EVIDENCE_VERDICT",
+      "passed": false
+    },
+    {
+      "blocker": true,
+      "detail": "actual=FAIL expected=PASS",
+      "id": "verdict:RELEASE_VERDICT",
+      "passed": false
+    },
+    {
+      "blocker": true,
+      "detail": "exit=0 required=True",
+      "id": "command:git-diff-check",
+      "passed": true
+    }
+  ],
+  "command_results": [
+    {
+      "command": "git diff --check",
+      "exit_code": 0,
+      "id": "git-diff-check",
+      "stderr_tail": "",
+      "stdout_tail": "",
+      "timed_out": false,
+      "timestamp": "2026-08-17T20:03:58Z"
+    }
+  ],
+  "generated_at": "2026-08-17T20:03:58Z",
+  "passed": false,
+  "repo": "/private/var/folders/wk/lds7pm9x7fv6y10hl_xfjwb80000gn/T/opencode/aaap-target",
+  "schema_version": "1.0.0"
+}

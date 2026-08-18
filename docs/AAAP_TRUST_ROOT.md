@@ -53,3 +53,12 @@ Publish the same registry and release hashes through a neutral account or host,
 sign releases with a separately protected release key, and retain append-only
 history in an externally witnessed transparency surface. Until then, the
 same-account boundary must remain explicit.
+
+## Vacuous agreement limit (GLM pass G02, 2026-08-18)
+
+Two byte-identical copies of ONE registry file pass the two-registry
+agreement check — agreement is necessary, not proof of independent
+acquisition. Operational rule (already the CHALLENGE.md instruction):
+fetch each registry over the network from its own published origin and
+never accept a locally-provided pair. The verifier cannot distinguish
+acquisition provenance; the operator instructions must.

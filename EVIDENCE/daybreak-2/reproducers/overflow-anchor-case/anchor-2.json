@@ -1,0 +1,32 @@
+{
+  "schema": "aaap-anchors/1",
+  "identities": [
+    {
+      "identity_id": "aaap-id-2f28c662cb4b30c1",
+      "algorithm": "ed25519",
+      "pubkey": "e7fb4aad8b0e0246eb6569f49d301ad88a0b54333e3de8bb57e02e118fd3716c",
+      "operator": "Centennial Defense Systems",
+      "valid_from": "2026-08-17",
+      "revoked": false,
+      "custody_stage": 1e9999
+    },
+    {
+      "identity_id": "aaap-id-ef9eef6cb68a8850",
+      "algorithm": "ed25519",
+      "pubkey": "866006bea62f69e3b56a4539e9d9588bb2200c1286960a42dd0c1868b5713717",
+      "operator": "Centennial Defense Systems",
+      "valid_from": "2026-08-17",
+      "valid_until": "2026-08-17",
+      "revoked": true,
+      "revocation_reason": "S0 raw-file custody history; retirement documented in docs/AAAP_IDENTITY_TRANSITION.md"
+    }
+  ],
+  "packets": [
+    {
+      "name": "demo/packet",
+      "chain_head": "14d14281170d89f6f8b918daf6541f81e7e13549dd4c66f5b085304ff6a61724",
+      "pubkey_identity": "aaap-id-2f28c662cb4b30c1",
+      "sealed_at": "2026-08-17"
+    }
+  ]
+}

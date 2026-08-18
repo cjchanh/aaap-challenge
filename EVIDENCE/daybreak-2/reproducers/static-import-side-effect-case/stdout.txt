@@ -1,0 +1,2 @@
+FAIL: packet root contains an unsealed entry: cryptography
+verify.json written: <SCRUBBED-TMP-PATH>

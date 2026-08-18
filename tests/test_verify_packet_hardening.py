@@ -52,6 +52,7 @@ class VerifierHardeningTests(unittest.TestCase):
     ) -> subprocess.CompletedProcess[str]:
         env = os.environ.copy()
         env.pop("PYTHONHOME", None)
+        env.pop("PYTHONPATH", None)
         env["PYTHONDONTWRITEBYTECODE"] = "1"
         if path is not None:
             env["PATH"] = path
@@ -168,6 +169,45 @@ class VerifierHardeningTests(unittest.TestCase):
             )
             self.assertEqual(proc.returncode, 1)
             self.assertIn("non-finite JSON number: 1e9999", proc.stderr)
+
+    def test_clean_production_packet_passes_both_anchor_modes(self) -> None:
+        with tempfile.TemporaryDirectory() as raw:
+            case = Path(raw)
+            packet = case / "packet"
+            shutil.copytree(SOURCE_PACKET, packet)
+
+            exact = self.run_verifier(
+                packet,
+                ["--expected-head", HEAD, "--expected-pubkey", PUBKEY],
+            )
+            exact_result = json.loads(
+                (packet / "verify.json").read_text(encoding="utf-8")
+            )
+            self.assertEqual(exact.returncode, 0, exact.stdout + exact.stderr)
+            self.assertEqual(exact_result["verdict"], "PASS")
+            self.assertTrue(exact_result["engines"])
+
+            first = case / "anchor-1.json"
+            second = case / "anchor-2.json"
+            shutil.copyfile(REPO / "anchors.json", first)
+            shutil.copyfile(REPO / "anchors.json", second)
+            registry = self.run_verifier(
+                packet,
+                [
+                    "--anchor-registry",
+                    str(first),
+                    "--anchor-registry",
+                    str(second),
+                    "--packet-name",
+                    "demo/packet",
+                ],
+            )
+            registry_result = json.loads(
+                (packet / "verify.json").read_text(encoding="utf-8")
+            )
+            self.assertEqual(registry.returncode, 0, registry.stdout + registry.stderr)
+            self.assertEqual(registry_result["verdict"], "PASS")
+            self.assertTrue(registry_result["engines"])
 
 
 if __name__ == "__main__":

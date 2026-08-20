@@ -44,3 +44,13 @@ benevolence, registry freshness, or independent origin.
 Hardening source: local working commit in the operator's private
 workspace; the published lineage is `e0fca96` -> `8f5ba31f` -> `c06b163` ->
 `939b1e7` -> `9655a65` -> `06a3982` (current).
+
+## Where this fits
+
+AAAP seals evidence. A heavier protocol — the Continuant — attaches mission
+authority, machine heterogeneity, and independent verification to that seal:
+a mission runs across a Mac, a cloud model, and a Raspberry Pi holding its
+own key, survives process death and the loss of its authority key, and the
+whole lineage seals into an AAAP-family packet a stranger re-verifies from
+receipts alone. Demonstrated (not yet a product) at
+https://centennialsystems.com/stack.

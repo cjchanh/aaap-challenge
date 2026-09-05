@@ -26,7 +26,9 @@ Exit 0 verifies canonical chain meaning, exact artifact and derived-file bytes,
 the full manifest v2 control body, and every present signature under the engine
 set named in `verify.json`. JSON whitespace is not sealed. Duplicate keys,
 non-finite numbers, symlinks, hardlinks, special files, and extra artifact-tree
-entries are rejected.
+entries are rejected. A packet-only PASS is a structural check; an anchored
+PASS is the claim. `--require-anchors` makes packet-only verification exit 3
+with `FAIL: anchors required`.
 
 ## Verify current identity and revocation policy
 

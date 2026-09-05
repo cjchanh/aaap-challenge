@@ -832,6 +832,7 @@ def main(argv: list[str]) -> int:
     parser.add_argument("--expected-pubkey")
     parser.add_argument("--anchor-registry", action="append", default=[])
     parser.add_argument("--packet-name", default="packet")
+    parser.add_argument("--require-anchors", action="store_true")
     args = parser.parse_args(argv[1:])
 
     if bool(args.expected_head) != bool(args.expected_pubkey):
@@ -849,6 +850,9 @@ def main(argv: list[str]) -> int:
         except (OSError, UnicodeDecodeError, ValueError) as exc:
             print(f"FAIL: anchor registry rejected: {exc}", file=sys.stderr)
             return 1
+    if args.require_anchors and not (expected_head and expected_pubkey):
+        print("FAIL: anchors required", file=sys.stderr)
+        return 3
 
     packet_dir = Path(args.packet_dir).expanduser().resolve()
     result_path = packet_dir / "verify.json"
@@ -864,9 +868,19 @@ def main(argv: list[str]) -> int:
     except OSError as exc:
         print(f"FAIL: could not safely write verify.json: {exc}", file=sys.stderr)
         return 1
-    print(f"{result['verdict']}: {result.get('reason', '')}"
-          + (f" [engines: {', '.join(result.get('engines', []))}]"
-             if result.get("engines") else ""))
+    if result["verdict"] == "PASS":
+        if expected_head and expected_pubkey:
+            print("PASS (anchored)")
+        else:
+            print(
+                "PASS (packet-only: not anchored — supply --expected-head and "
+                "--expected-pubkey from an out-of-band source to verify "
+                "authorship and freshness)"
+            )
+    else:
+        print(f"{result['verdict']}: {result.get('reason', '')}"
+              + (f" [engines: {', '.join(result.get('engines', []))}]"
+                 if result.get("engines") else ""))
     for entry in result.get("checks", []):
         if not entry["passed"]:
             print(f"  FAILED: {entry['check']} — {entry['detail']}")

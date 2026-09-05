@@ -22,17 +22,38 @@ machine results are under `security/`; the post-release finding ledger is
 Requirements: Python 3.10+ and either the Python `cryptography` package or an
 OpenSSL build with Ed25519 `pkeyutl -rawin` support.
 
+`anchors.json` at the repository root is the published anchor registry
+(chain head + pubkey). Use those published values out-of-band:
+
 ```bash
-cd packet
-python3 verify_packet.py . \
+python3 packet/verify_packet.py packet \
   --expected-head 14d14281170d89f6f8b918daf6541f81e7e13549dd4c66f5b085304ff6a61724 \
   --expected-pubkey e7fb4aad8b0e0246eb6569f49d301ad88a0b54333e3de8bb57e02e118fd3716c
 ```
 
-For registry-policy verification, independently acquire both exact registry
-snapshots and use `--packet-name demo/packet`. Both repositories are controlled
-by `github.com/cjchanh`: they are two Git histories, not two administrative or
-custodial trust origins.
+```bash
+python3 packet/verify_packet.py packet
+```
+
+Packet-only PASS is not anchored — supply `--expected-head` and
+`--expected-pubkey` from an out-of-band source to verify authorship and
+freshness. `--require-anchors` makes the packet-only case exit 3 with
+`FAIL: anchors required`.
+
+`--anchor-registry` requires exactly two independently acquired, byte-identical
+registry files; a single `anchors.json` argument is rejected. For
+registry-policy verification, independently acquire both exact registry
+snapshots and use `--packet-name demo/packet`:
+
+```bash
+python3 packet/verify_packet.py packet \
+  --anchor-registry /path/to/independently-acquired/anchors.json \
+  --anchor-registry /path/to/second-independently-acquired/anchors.json \
+  --packet-name demo/packet
+```
+
+Both repositories are controlled by `github.com/cjchanh`: they are two Git
+histories, not two administrative or custodial trust origins.
 
 ## Narrow claim
 

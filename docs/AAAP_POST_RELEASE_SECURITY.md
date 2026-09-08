@@ -22,7 +22,7 @@ anchored verifier returning exit 0.
 | Derived file could escape by symlink | fixed manifest paths used following `is_file()` and hashing | plain regular in-packet file requirement |
 | Attacker could add a plausible unsealed root claim while anchored verification returned PASS | packet root had no exact inventory | exact root allowlist; `verify.json` is the only unsealed optional entry |
 | Public anchor command ignored disagreement and revocation semantics | manual array-index extraction passed only head/pubkey | two-registry mode with exact agreement, active identity, uniqueness, and validity checks |
-| Deterministic source ZIP admitted tracked `.tmp/` receipts | package selectors excluded `tmp/` but not `.tmp/` | both package selectors now exclude `.tmp/`; ignore policy prevents recurrence |
+| Deterministic source ZIP admitted tracked `.tmp/` files | package selectors excluded `tmp/` but not `.tmp/` | both package selectors now exclude `.tmp/`; ignore policy prevents recurrence |
 | Portability, custody, timing, and origin claims exceeded evidence | stale v0.1/v0.2 prose and conflated operational assertions with cryptographic proof | claim set rewritten to explicit byte/semantic/trust boundaries |
 
 The v0.4 regression lane also gives a test signer the packet key. It proves the

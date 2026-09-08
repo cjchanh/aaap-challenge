@@ -15,7 +15,7 @@ whose selected identity is active.
 3. **Ordering integrity.** Envelope insertion, deletion, reordering, and tail
    truncation change the attested head or break a link.
 4. **Authenticated verification policy.** The v2 manifest signature covers the
-   schema, complete derived-file allowlist, key model, operator id, public key,
+   schema, complete derived-file allowlist, key model, `operator_id`, public key,
    and the entire live-ledger verification policy, including an explicit null
    when no live ledger exists.
 5. **Signature validity.** The key matching the packet public key signed the
@@ -35,7 +35,7 @@ whose selected identity is active.
    same key holder.
 3. **Key custody.** A signature proves key use, not whether the key lived in a
    Keychain, file, hardware token, or hostile signing oracle.
-4. **Operator identity by itself.** The operator label is signed by the key;
+4. **Author identity by itself.** The identity label is signed by the key;
    ownership of that key is an external anchor-publication trust decision.
 5. **Immunity to a full re-forge.** A fresh key can produce a self-consistent
    packet. Only a trusted exact anchor detects substitution.

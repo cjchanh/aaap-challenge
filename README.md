@@ -1,35 +1,35 @@
-# AAAP v0.5 — Hardened Post-Release Challenge
+# AAAP — Authenticated Artifact Packet challenge
 
-AAAP v0.3 at commit
+A sealed evidence packet and a fail-closed verifier. Clone this repository,
+check the packet against the published chain head and public key, then try
+to break it.
+
+**Needs:** Python 3.10+ and either the Python `cryptography` package or an
+OpenSSL build with Ed25519 `pkeyutl -rawin` support.
+
+**Refuses:** extra files at packet root, duplicate JSON keys, non-finite
+numbers, symlinks and hardlinks, missing anchors when `--require-anchors` is
+set, and any mismatch against a supplied head or public key. A packet-only
+PASS is a structural check, not authorship.
+
+Start with [CHALLENGE.md](CHALLENGE.md). AAAP v0.3 at commit
 `e0fca96651b30c76d0a29bf867cdd14cdc38db00` is preserved as an immutable,
-reproducibly vulnerable historical release. This repository is its
-hardened successor.
-
-The v0.4 packet preserves the v0.3 `chain.jsonl`, `artifacts/`, and
-`attestation.json` byte-for-byte. It regenerates the human/verification layer
-and signs manifest schema v2 with the same anchored production identity. The
-chain head and public key therefore remain:
-
-- head: `14d14281170d89f6f8b918daf6541f81e7e13549dd4c66f5b085304ff6a61724`
-- pubkey: `e7fb4aad8b0e0246eb6569f49d301ad88a0b54333e3de8bb57e02e118fd3716c`
-
-Start with [CHALLENGE.md](CHALLENGE.md). The complete v0.3 reproducer and
-machine results are under `security/`; the post-release finding ledger is
+reproducibly vulnerable historical release. Attack evidence is under
+`security/` and `EVIDENCE/`; the finding ledger is
 [docs/AAAP_POST_RELEASE_SECURITY.md](docs/AAAP_POST_RELEASE_SECURITY.md).
 
 ## Verify
 
-Requirements: Python 3.10+ and either the Python `cryptography` package or an
-OpenSSL build with Ed25519 `pkeyutl -rawin` support.
-
-`anchors.json` at the repository root is the published anchor registry
-(chain head + pubkey). Use those published values out-of-band:
+`anchors.json` at the repository root publishes the chain head and public
+key. Use those published values out-of-band:
 
 ```bash
 python3 packet/verify_packet.py packet \
   --expected-head 14d14281170d89f6f8b918daf6541f81e7e13549dd4c66f5b085304ff6a61724 \
   --expected-pubkey e7fb4aad8b0e0246eb6569f49d301ad88a0b54333e3de8bb57e02e118fd3716c
 ```
+
+Unanchored (structural only — not authorship or freshness):
 
 ```bash
 python3 packet/verify_packet.py packet
@@ -52,26 +52,33 @@ python3 packet/verify_packet.py packet \
   --packet-name demo/packet
 ```
 
-Both repositories are controlled by `github.com/cjchanh`: they are two Git
+Both registries are the same GitHub account (`github.com/cjchanh`): two Git
 histories, not two administrative or custodial trust origins.
+
+## Challenge terms
+
+Daybreak and Daybreak II were commissioned by the author. They are not
+outside breaks. The success condition of this challenge is a reproducible
+break by someone who was not commissioned or paid by Centennial Defense
+Systems.
+
+The v0.4 packet preserves the v0.3 `chain.jsonl`, `artifacts/`, and
+`attestation.json` byte-for-byte. It regenerates the human/verification layer
+and signs manifest schema v2 with the same anchored production identity. The
+chain head and public key therefore remain:
+
+- head: `14d14281170d89f6f8b918daf6541f81e7e13549dd4c66f5b085304ff6a61724`
+- pubkey: `e7fb4aad8b0e0246eb6569f49d301ad88a0b54333e3de8bb57e02e118fd3716c`
 
 ## Narrow claim
 
 A PASS authenticates the checked bytes, canonical envelope semantics, ordering,
 manifest policy, and signatures under the supplied anchor. It does not prove
-world truth, signing time, Keychain custody, operator ownership, verifier/host
+world truth, signing time, Keychain custody, author ownership, verifier/host
 benevolence, registry freshness, or independent origin.
 
-Hardening source: local working commit in the operator's private
+Hardening source: local working commit in the author's private
 workspace; the published lineage is `e0fca96` -> `8f5ba31f` -> `c06b163` ->
 `939b1e7` -> `9655a65` -> `06a3982` (current).
 
-## Where this fits
-
-AAAP seals evidence. A heavier protocol — the Continuant — attaches mission
-authority, machine heterogeneity, and independent verification to that seal:
-a mission runs across a Mac, a cloud model, and a Raspberry Pi holding its
-own key, survives process death and the loss of its authority key, and the
-whole lineage seals into an AAAP-family packet a stranger re-verifies from
-receipts alone. Demonstrated (not yet a product) at
-https://centennialsystems.com/stack.
+How this packet fits a larger protocol: [docs/WHERE_THIS_FITS.md](docs/WHERE_THIS_FITS.md).

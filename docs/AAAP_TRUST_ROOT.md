@@ -61,4 +61,4 @@ agreement check — agreement is necessary, not proof of independent
 acquisition. Operational rule (already the CHALLENGE.md instruction):
 fetch each registry over the network from its own published origin and
 never accept a locally-provided pair. The verifier cannot distinguish
-acquisition provenance; the operator instructions must.
+acquisition provenance; the maintainer instructions must.

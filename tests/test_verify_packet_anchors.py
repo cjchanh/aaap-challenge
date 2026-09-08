@@ -8,9 +8,8 @@ import unittest
 from contextlib import redirect_stderr, redirect_stdout
 from pathlib import Path
 
-
-VERIFIER_PATH = Path(__file__).resolve().parent / "verify_packet.py"
 REPO = Path(__file__).resolve().parents[1]
+VERIFIER_PATH = REPO / "packet" / "verify_packet.py"
 HEAD = "14d14281170d89f6f8b918daf6541f81e7e13549dd4c66f5b085304ff6a61724"
 PUBKEY = "e7fb4aad8b0e0246eb6569f49d301ad88a0b54333e3de8bb57e02e118fd3716c"
 PACKET_ONLY_PASS = (
@@ -125,6 +124,17 @@ class VerifierAnchorPostureTests(unittest.TestCase):
             re.compile(r"exactly two independently acquired", re.IGNORECASE),
         )
         self.assertIn("a single `anchors.json` argument is rejected", readme)
+
+    def test_packet_root_contains_no_unsealed_test_modules(self) -> None:
+        extras = sorted(p.name for p in (REPO / "packet").glob("test_*.py"))
+        self.assertEqual(extras, [])
+
+    def test_public_terms_state_commissioned_breaks_and_outside_success(self) -> None:
+        for name in ("README.md", "CHALLENGE.md"):
+            text = re.sub(r"\s+", " ", (REPO / name).read_text(encoding="utf-8").lower())
+            self.assertIn("commissioned", text)
+            self.assertIn("cjchanh", text)
+            self.assertIn("not commissioned or paid", text)
 
 
 if __name__ == "__main__":

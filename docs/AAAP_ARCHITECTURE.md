@@ -2,14 +2,14 @@
 
 ## Producer path
 
-1. Copy each governed source artifact into `artifacts/` and hash its exact bytes.
+1. Copy each source artifact into `artifacts/` and hash its exact bytes.
 2. Emit one strict canonical envelope per artifact and link it to the prior hash.
 3. Sign the final chain head with the selected Ed25519 identity.
 4. If a live ledger is supplied, verify its chain and per-entry signatures,
    copy both streams into artifacts, and place length/head/path policy in `live`.
 5. Generate report, replay scope, packet guide, envelope spec, and verifier.
 6. Sign manifest schema v2 over every control field except the signature itself:
-   schema, exact derived-file map, key model, operator id, public key, and the
+   schema, exact derived-file map, key model, `operator_id`, public key, and the
    complete live object or explicit null.
 7. Run the shipped verifier as a fresh process; refuse the packet if it fails.
 

@@ -5,7 +5,7 @@ below passed, but it did not attack unsigned manifest policy, strict parser
 agreement, output-path side effects, or non-regular package entries. Daybreak
 reproduced those violations against public commit `e0fca96651b30c76d0a29bf867cdd14cdc38db00`.
 
-Subject: demo/packet (chain head `2191ca7bbd33…454787b56`, operator key
+Subject: demo/packet (chain head `2191ca7bbd33…454787b56`, identity key
 published out-of-band in the exercise output `ANCHORS.md`).
 Attacker: `scripts/aaap_attack.py` — 16 single-mutation attacks across six
 classes; every verdict from the SHIPPED verifier run as a fresh subprocess.

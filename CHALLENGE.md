@@ -4,22 +4,41 @@ Treat this packet and its verifier as hostile input. Review `verify_packet.py`
 or run it in a disposable least-privilege environment. Hash-pinning detects a
 post-build verifier swap; it does not prove producer-supplied code is benign.
 
-## Requirements
-
-- Python 3.10+; and
-- either the Python `cryptography` package or an OpenSSL build with Ed25519
-  `pkeyutl -rawin` support.
+A sealed evidence packet plus a fail-closed verifier. **Needs:** Python 3.10+
+and either the Python `cryptography` package or an OpenSSL build with Ed25519
+`pkeyutl -rawin` support. **Refuses:** extra packet-root files, duplicate
+keys, non-finite numbers, symlinks/hardlinks, and any supplied-anchor mismatch.
 
 Apple's stock `/usr/bin/openssl` did not provide the needed engine in the
 Daybreak clean-environment test. The verifier failed closed. Use
 `cryptography` or an Ed25519-capable OpenSSL build; do not interpret an
 installed `openssl` command as sufficient.
 
+## Success condition
+
+The success condition is a reproducible break by someone who was not
+commissioned or paid by Centennial Defense Systems.
+
+Daybreak and Daybreak II were commissioned by the author. They found real
+bugs and are credited, but they are not outside breaks.
+
+Both public registries live under `github.com/cjchanh`. They are two Git
+histories, not two independent custodians.
+
 ## Verify packet integrity
 
+Anchored (the meaningful check):
+
 ```bash
-cd packet
-python3 verify_packet.py .
+python3 packet/verify_packet.py packet \
+  --expected-head 14d14281170d89f6f8b918daf6541f81e7e13549dd4c66f5b085304ff6a61724 \
+  --expected-pubkey e7fb4aad8b0e0246eb6569f49d301ad88a0b54333e3de8bb57e02e118fd3716c
+```
+
+Unanchored (structural only):
+
+```bash
+python3 packet/verify_packet.py packet
 ```
 
 Exit 0 verifies canonical chain meaning, exact artifact and derived-file bytes,
@@ -36,9 +55,9 @@ Acquire `anchors.json` separately from both repository snapshots, record their
 commit SHAs through a trusted channel, then run:
 
 ```bash
-python3 verify_packet.py . \
-  --anchor-registry ../anchors.json \
-  --anchor-registry /path/to/aaap-anchors/anchors.json \
+python3 packet/verify_packet.py packet \
+  --anchor-registry /path/to/independently-acquired/anchors.json \
+  --anchor-registry /path/to/second-independently-acquired/anchors.json \
   --packet-name demo/packet
 ```
 
@@ -66,7 +85,7 @@ intentionally does not consult later revocation state.
 - when a signature occurred or that it occurred inside the claimed execution
   path rather than later under the same key;
 - Keychain, hardware, or other private-key custody;
-- that the operator label truly owns the key without trusting anchor acquisition;
+- that the identity label truly owns the key without trusting anchor acquisition;
 - a stable directory after verification; reverify preserved hashes before use;
 - a benign verifier or uncompromised host;
 - independent origin: both public repositories currently share the
@@ -83,5 +102,9 @@ still passes, an unsafe filesystem side effect, an anchor/revocation mismatch
 that passes the corresponding mode, or a reported engine agreement that did not
 occur. A documented external boundary is a limitation, not a cryptographic fix.
 
+Credit for a break that meets those criteria goes to the person who produced
+it. Commissioned passes are labeled commissioned. An outside break is the
+stated success condition.
+
 The v0.3 post-release breaks and v0.4 remediations are documented in
-`../docs/AAAP_POST_RELEASE_SECURITY.md`.
+`docs/AAAP_POST_RELEASE_SECURITY.md`.

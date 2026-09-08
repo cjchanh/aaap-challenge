@@ -1,6 +1,6 @@
 # AAAP Key Custody — Operational Claim and Limits
 
-The production identity `aaap-id-2f28c662cb4b30c1` is reported by the operator
+The production identity `aaap-id-2f28c662cb4b30c1` is reported by the author
 as stored in the macOS user Keychain under service `cds-aaap-identity`, account
 `production`. The public key is safe to publish. The private-key storage claim
 is not proven by an AAAP packet or signature.

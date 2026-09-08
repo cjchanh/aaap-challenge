@@ -1,0 +1,32 @@
+name: verify
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install cryptography
+        run: python3 -m pip install cryptography
+      - name: Packet-only verify
+        run: PYTHONDONTWRITEBYTECODE=1 python3 packet/verify_packet.py packet
+      - name: Anchored verify
+        run: |
+          PYTHONDONTWRITEBYTECODE=1 python3 packet/verify_packet.py packet \
+            --expected-head 14d14281170d89f6f8b918daf6541f81e7e13549dd4c66f5b085304ff6a61724 \
+            --expected-pubkey e7fb4aad8b0e0246eb6569f49d301ad88a0b54333e3de8bb57e02e118fd3716c
+      - name: Require-anchors fail-closed
+        run: |
+          set +e
+          PYTHONDONTWRITEBYTECODE=1 python3 packet/verify_packet.py packet --require-anchors
+          status=$?
+          set -e
+          test "$status" -eq 3
+      - name: Tests
+        run: PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests -v

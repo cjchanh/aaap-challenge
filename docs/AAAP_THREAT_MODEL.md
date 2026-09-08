@@ -13,7 +13,7 @@ objects. The host and acquisition channel are separate trust boundaries.
 | Artifact or derived-file byte change | envelope/manifest SHA-256 |
 | Envelope edit, insertion, deletion, reorder, or truncation | canonical hash, links, attested head |
 | Duplicate JSON keys or `NaN`/`Infinity` | strict JSON parser |
-| Manifest live policy, key model, schema, or operator edit | v2 full-control-body signature |
+| Manifest live policy, key model, schema, or identity-label edit | v2 full-control-body signature |
 | Missing live policy | exact v2 manifest fields; `live` is signed object or signed null |
 | Attestation schema edit or unsigned extra claim | exact fields plus schema check |
 | Symlink, hardlink, special file, or unreferenced artifacts entry | plain-file and complete-tree checks |

@@ -2,11 +2,11 @@
 
 > Historical operational record. Its original security conclusion is
 > superseded by `AAAP_POST_RELEASE_SECURITY.md`. Key-generation and deletion
-> statements below are operator-reported events, not packet-verifiable facts.
+> statements below are author-reported events, not packet-verifiable facts.
 
 ## Decision
 
-The operator reports that production AAAP signing identity
+The author reports that production AAAP signing identity
 **aaap-id-2f28c662cb4b30c1** (Ed25519, pubkey
 `e7fb4aad…8fd3716c`) was generated in memory and stored directly into the
 macOS user Keychain (service `cds-aaap-identity`, account `production`). The

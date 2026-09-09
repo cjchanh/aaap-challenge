@@ -5,7 +5,7 @@
     "ENVELOPE.md": "0feb0ede00d5d4035f61269065288cf3907182800867e303633496d8c8f520e7",
     "report.md": "bd4c8d49bae2a08204ff5471d65ddecce109679e97f63c07e5bf8a1c74aa4798",
     "replay.json": "69d6779ce6404101388476fa6434907fffa13fbe82db56ac6bc11353b423782f",
-    "verify_packet.py": "a5382b2973d0f2adcc12d0cf1fb1cdec91d22038bad3f06abb7e14db7ff61099"
+    "verify_packet.py": "a823fe1e6c0add7d3fe15057f6f884cca339c70dbac25a047ade4bde04e7b9aa"
   },
   "key_model": "persistent-identity",
   "operator_id": "cds/aaap-id-2f28c662cb4b30c1",
@@ -20,5 +20,5 @@
       "live chain and indexed signatures reverified during v0.5 local candidate build"
     ]
   },
-  "signature": "947a68343cc27522f638c4a1658b4e0a4f3a10c10527de90e2e797f622fcf742040ee580655ed5e90ade4ba0723ec4394842de2a6facf3f4fa7831ce5048940d"
+  "signature": "ecfdbe6a609134b282caf6ea4233faabc339418e50dcde87ab35a5140d4c1a87a075599a303ba535314afca5bcdf9a5d4afdac74181f0f5ccf670105cfd6ef04"
 }

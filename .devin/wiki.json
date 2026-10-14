@@ -1,0 +1,68 @@
+{
+  "repo_notes": [
+    {
+      "content": "aaap-challenge is the AAAP (Authenticated Artifact Packet / 'Attested After-Action Packet') challenge repo: a sealed evidence packet plus a fail-closed standalone verifier (packet/verify_packet.py), published for independent breakage attempts. It is a security artifact repo, not an application — the 'product' is the packet format, the verifier, and the identity-anchoring policy. Core posture from AGENTS.md: published commits, signed manifests, anchors, and preserved attack evidence are immutable; ambiguity, parser disagreement, missing trust inputs, unsafe file types, verifier disagreement, and unavailable signature engines all reject by default; pushes/tags/releases require a fresh 'OPERATOR COMMIT:'. Claim discipline: a packet-only PASS is a structural check, not authorship — anchored PASS (--expected-head + --expected-pubkey, or two byte-identical independently acquired registries) is the claim.",
+      "author": "Devin"
+    },
+    {
+      "content": "Layout: the live packet lives in packet/ (verify_packet.py ~890 lines is the standalone verifier whose own hash is sealed into manifest.json; chain.jsonl envelopes per packet/ENVELOPE.md; attestation.json; manifest.json v2 control body; artifacts/ raw sealed copies incl. .builder-foundry__* ledgers and *.jsonl signed ledgers; replay.json; report.md; verify.json regenerated output). anchors.json at root publishes the chain head + active pubkey; the aaap-anchors repo is the second-origin mirror. security/ holds commissioned attack batteries (aaap_v03_reproducers.py, V03/V04 result JSONs). EVIDENCE/ holds three commissioned adversarial passes (daybreak-1 v03-repro broken→fixed, daybreak-2 broken→fixed, glm-pass survived) each as case dirs with CHALLENGE.md/WALKTHROUGH.md/anchors.json/docs/packet snapshots. tests/ has two pytest suites for verifier anchors + hardening. docs/ is the normative corpus: AAAP_PROVES.md (what the packet does and does not prove), AAAP_ARCHITECTURE.md, AAAP_THREAT_MODEL.md, AAAP_TRUST_ROOT.md, AAAP_KEY_CUSTODY.md, AAAP_IDENTITY_TRANSITION.md, AAAP_POST_RELEASE_SECURITY.md (finding ledger), AAAP_ADVERSARIAL_EXERCISE.md, WHERE_THIS_FITS.md. Prioritize the verifier and docs; treat EVIDENCE/ as replayable case studies; note CHALLENGE.md/WALKTHROUGH.md/DAYBREAK_*_CREDIT.md are top-level entry docs.",
+      "author": "Devin"
+    },
+    {
+      "content": "Vocabulary: packet, envelope (chain.jsonl entries, spec in packet/ENVELOPE.md — canonicalization is recursively sorted keys, compact separators, ensure_ascii, non-finite numbers rejected, sha256 hex), chain head, attestation, manifest v2 control body, anchor registry (--anchor-registry requires exactly two independently acquired byte-identical files), custody stage (S0 raw file vs macOS Keychain), revocation-as-row, fail-closed (exit 3 'FAIL: anchors required' under --require-anchors), engine set (cryptography package or OpenSSL with Ed25519 pkeyutl -rawin; Apple's stock /usr/bin/openssl famously fails closed). Immutable preserved releases: v0.3 at commit e0fca96651b30c76d0a29bf867cdd14cdc38db00 is kept as a reproducibly vulnerable historical release.",
+      "author": "Devin"
+    }
+  ],
+  "pages": [
+    {
+      "title": "Overview",
+      "purpose": "Explain the AAAP challenge: a sealed evidence packet plus a fail-closed standalone verifier published for independent verification and breakage attempts; the success condition (a reproducible break by someone not commissioned by Centennial Defense Systems); the repo map (packet/, anchors.json, docs/, security/, EVIDENCE/, tests/); and that this is a security-artifact repo, not an application.",
+      "parent": null
+    },
+    {
+      "title": "Getting Started: Verifying the Packet",
+      "purpose": "Document the verification walkthrough from CHALLENGE.md and WALKTHROUGH.md: freeze commit SHAs, inspect or sandbox the producer-supplied verifier, run packet/verify_packet.py packet unanchored vs anchored (--expected-head/--expected-pubkey), the --require-anchors fail-closed path (exit 3), --anchor-registry dual-registry mode with --packet-name demo/packet, engine requirements (Python 3.10+, cryptography package or Ed25519 pkeyutl-capable OpenSSL; Apple's stock openssl fails closed), and the refusal surface (extra packet-root files, duplicate keys, non-finite numbers, symlinks/hardlinks).",
+      "parent": "Overview"
+    },
+    {
+      "title": "What a Packet Proves — and Does Not",
+      "purpose": "Document docs/AAAP_PROVES.md precisely: the six proofs (byte integrity of sealed payloads, canonical chain integrity, ordering integrity, authenticated manifest v2 verification policy, signature validity under the named engine set, exact packet identity when anchored) and the non-proofs (world truth, signing time, key custody, author identity without out-of-band anchoring, full re-forge immunity, hostile-input availability, product quality).",
+      "parent": "Overview"
+    },
+    {
+      "title": "Packet Format: Envelopes, Chain, Manifest, Attestation",
+      "purpose": "Document the on-disk packet format in packet/: the evidence-envelope field spec in ENVELOPE.md (envelope_id, signal_sha256, timestamp_utc, source_system, action_class, route_selected, policy_decision, execution_result, receipt_hash, chain_index, chain_prev) with the exact canonicalization recipe; chain.jsonl semantics; manifest.json v2 signed control body incl. derived-file allowlist, key model, operator_id, and live-ledger verification policy; attestation.json chain-head signature; artifacts/ raw sealed copies; replay.json scope; verify.json as regenerated output (not part of the seal).",
+      "parent": "Overview"
+    },
+    {
+      "title": "verify_packet.py: The Fail-Closed Verifier",
+      "purpose": "Document packet/verify_packet.py (~890 lines, hash-sealed into manifest.json): verification stages, anchor modes (unanchored structural vs anchored vs dual-registry policy), strict JSON parsing (duplicate keys, non-finite numbers rejected), filesystem hygiene refusals (symlinks, hardlinks, special files, extra artifact-tree entries), engine negotiation and the exit-code contract (0 PASS, 3 FAIL anchors required), and how tests/test_verify_packet_anchors.py and test_verify_packet_hardening.py pin the behavior.",
+      "parent": null
+    },
+    {
+      "title": "Identity Anchors and Trust Root",
+      "purpose": "Document the identity model: root anchors.json registry (schema aaap-anchors/1: identities with custody_stage and revocation-as-row, registered packets with chain_head), the dual-origin mirror repo cjchanh/aaap-anchors and the byte-agreement rule, macOS Keychain custody (docs/AAAP_KEY_CUSTODY.md), the identity transition from S0 raw-file custody (docs/AAAP_IDENTITY_TRANSITION.md), the honest residual that both origins share one GitHub account (docs/AAAP_TRUST_ROOT.md), and docs/WHERE_THIS_FITS.md.",
+      "parent": null
+    },
+    {
+      "title": "Threat Model and Security Invariants",
+      "purpose": "Document docs/AAAP_THREAT_MODEL.md and the AGENTS.md invariants: immutability of published commits/manifests/anchors/evidence, default-reject posture on ambiguity/parser disagreement/missing trust inputs, key-access authorization requirements, the rule that a second anchor path is not independent trust without independent custody, minimal-reproducer + regression-change discipline for security fixes, and the OPERATOR COMMIT gate for pushes/tags/releases.",
+      "parent": null
+    },
+    {
+      "title": "Commissioned Adversarial Passes (EVIDENCE/ and security/)",
+      "purpose": "Document the attack evidence layout: security/ v0.3 reproducers (aaap_v03_reproducers.py) and V03/V04 result sets; EVIDENCE/README.md's pass table (Daybreak I: 11 mutation classes → BROKEN v0.3; Daybreak II: 33 hostile cases → BROKEN v0.4-lineage; GLM pass: 10 novel classes → SURVIVED v0.5); the per-case directory anatomy (CHALLENGE.md, WALKTHROUGH.md, anchors.json, docs/, packet/ snapshot); credits (DAYBREAK_CREDIT.md, DAYBREAK_II_CREDIT.md); and docs/AAAP_POST_RELEASE_SECURITY.md as the finding ledger.",
+      "parent": null
+    },
+    {
+      "title": "Testing and CI",
+      "purpose": "Document the verification CI in .github/workflows/verify.yml (packet-only verify, anchored verify with the published head/pubkey, --require-anchors exit-3 check), the pytest suites under tests/, and the security/ reproducer batteries; note that the pipeline validates the shipped packet, not application code.",
+      "parent": null
+    },
+    {
+      "title": "Design Documents",
+      "purpose": "Map the docs/ corpus as the normative source set: AAAP_ARCHITECTURE.md, AAAP_PROVES.md, AAAP_THREAT_MODEL.md, AAAP_TRUST_ROOT.md, AAAP_KEY_CUSTODY.md, AAAP_IDENTITY_TRANSITION.md, AAAP_ADVERSARIAL_EXERCISE.md, AAAP_POST_RELEASE_SECURITY.md, WHERE_THIS_FITS.md — plus packet/ENVELOPE.md and packet/PACKET.md as format specs.",
+      "parent": null
+    }
+  ]
+}
